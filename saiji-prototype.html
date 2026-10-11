@@ -213,7 +213,7 @@
       .room-event { font-size: 12px; line-height: 1.4; color: var(--muted); }
       .room-btn.selected .room-event { color: #fff; }
       .room-btn .crowd-badge { display: none; }
-      .room-btn:focus-visible, .detail-close:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+      .room-btn:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
       .room-btn:active {
         transform: scale(0.95);
       }
@@ -272,14 +272,21 @@
         background: #e9b94f;
       }
       .detail {
-        margin: 0 15px 16px;
-        padding: 0 12px 12px;
-        border: 3px solid var(--ink);
-        border-radius: 8px;
-        background: rgba(255, 253, 248, 0.98);
-        box-shadow: 3px 4px 0 rgba(24, 52, 77, 0.13);
+        position: fixed;
+        z-index: 20;
+        left: 50%;
+        bottom: 0;
+        width: min(100%, 680px);
+        max-height: 55dvh;
+        margin: 0;
+        padding: 0 15px calc(16px + env(safe-area-inset-bottom));
+        transform: translateX(-50%);
+        overflow-y: auto;
+        border-top: 3px solid var(--ink);
+        background: rgba(255, 253, 248, 0.96);
+        box-shadow: 0 -5px 16px rgba(24, 52, 77, 0.2);
       }
-      .detail[hidden] { display: none; }
+      #app { padding-bottom: 55dvh; }
       .detail-title {
         display: flex;
         align-items: center;
@@ -302,16 +309,6 @@
         font-size: 11px;
         color: var(--muted);
         margin: 0 0 0 auto;
-      }
-      .detail-close {
-        flex: none;
-        border: 2px solid var(--ink);
-        border-radius: 6px;
-        background: #fff;
-        color: var(--ink);
-        padding: 5px 8px;
-        font: 700 12px inherit;
-        cursor: pointer;
       }
       .gym-detail-link {
         display: block;
@@ -360,6 +357,7 @@
         border: 2px solid var(--ink);
         border-radius: 5px;
         background: rgba(255, 255, 255, 0.88);
+        min-height: 130px;
         overflow: hidden;
       }
       .empty {
@@ -479,12 +477,11 @@
         </div>
         <div id="activityZones"></div>
       </section>
-    <section class="detail" id="detail" aria-label="選択した催し物の詳細" hidden>
+    <section class="detail" id="detail" aria-label="選択した催し物の詳細">
         <div class="detail-title">
           <span class="tag" id="detailTag">案内</span>
           <h2 id="detailTitle">催し物を選んでください</h2>
           <p id="detailMeta"></p>
-          <button class="detail-close" id="detailClose" type="button" aria-label="詳細を閉じる">閉じる</button>
         </div>
         <div id="eventList">
           <div class="empty">
@@ -648,8 +645,6 @@
           dataStatus.textContent = "催事データを読み込めなかったため、予備データを表示しています。";
           dataStatus.classList.add("error");
         }
-        document.querySelector(".search-panel").insertAdjacentElement("afterend", detail);
-        detail.hidden = true;
         renderFloors();
         renderActivityZones();
         document.querySelectorAll(".facility").forEach((button) => {
@@ -668,7 +663,7 @@
           detailTag.textContent = "案内";
           detailMeta.textContent = "";
           eventList.innerHTML = '<div class="empty">教室または体育館をタップすると、ここに催し物の詳細が表示されます。</div>';
-          detail.hidden = true;
+          detail.scrollTop = 0;
         }
         return revision;
       }
@@ -747,18 +742,13 @@
         const data = EVENTS[zone],
           item = data.items[index];
         show(data.label + " " + item.name, data.building, item);
-        revealDetailAfter(button.closest(".floor"));
+        detail.scrollTop = 0;
       }
       function selectZone(zone, button) {
         activate(button);
         const data = EVENTS[zone];
         show(data.label, data.building, null, data.items || [], zone);
-        revealDetailAfter(button.closest(".facilities"));
-      }
-      function revealDetailAfter(anchor, scroll = true) {
-        anchor.insertAdjacentElement("afterend", detail);
-        detail.hidden = false;
-        if (scroll) requestAnimationFrame(() => detail.scrollIntoView({behavior: "smooth", block: "nearest"}));
+        detail.scrollTop = 0;
       }
       function eventImage(ev) {
         const source = typeof ev.image === "string" && /^data:image\/(?:jpeg|png|webp);base64,[a-z\d+/=]+$/i.test(ev.image)
@@ -810,12 +800,7 @@
           `<article class="event"${item.id ? ` data-crowd-id="${escapeHTML(item.id)}"` : ""}><div class="event-top"><div class="event-name">${escapeHTML(item.name)}</div>${item.time ? `<div class="event-time">${escapeHTML(item.time)}</div>` : ""}</div><div class="event-room">${escapeHTML([item.zoneLabel, item.room].filter(Boolean).join(" · "))}</div><span class="event-category">${escapeHTML(item.category)}</span>${item.desc ? `<div class="event-desc">${escapeHTML(item.desc)}</div>` : ""}${eventImage(item)}</article>`,
         ).join("") : '<div class="empty">条件に合う催事は見つかりませんでした。</div>';
         detail.scrollTop = 0;
-        revealDetailAfter(document.querySelector(".search-panel"), false);
       }
-      document.getElementById("detailClose").addEventListener("click", () => {
-        detail.hidden = true;
-        activate(null);
-      });
       function escapeHTML(s) {
         return String(s || "").replace(
           /[&<>'"]/g,
