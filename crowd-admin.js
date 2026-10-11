@@ -127,7 +127,7 @@ function renderCards() {
 }
 function renderStatuses() {
   const connected = fresh && navigator.onLine;
-  $("connection").textContent = connected ? "接続中。更新から15分以上経つと、来場者には「要確認」と表示します。"
+  $("connection").textContent = connected ? "接続中。更新から30分以上経つと、来場者には「要確認」と表示します。"
     : "最新情報を確認できません。通信の復旧を待ち、戻らない場合は再読み込みしてください。";
   for (const card of $("eventCards").children) {
     const id = card.dataset.eventId;
