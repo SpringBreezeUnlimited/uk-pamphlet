@@ -1,4 +1,4 @@
-import {crowdState} from "./crowd-model.js";
+import {STATUS, crowdState} from "./crowd-model.js";
 
 const root = document.getElementById("app");
 const note = document.getElementById("crowdConnection");
@@ -16,7 +16,7 @@ function render() {
   observer.disconnect();
   const connected = serverFresh && navigator.onLine && !failed;
   note.textContent = connected
-    ? "混雑状況は係が更新しています。15分以上更新がない場合は「要確認」と表示します。"
+    ? "混雑状況は係が更新しています。30分以上更新がない場合は「要確認」と表示します。"
     : "混雑状況の最新情報を取得できません。会場でご確認ください。";
   for (const target of root.querySelectorAll("[data-crowd-id]")) {
     let badge = target.querySelector(":scope > .crowd-badge");
@@ -25,9 +25,16 @@ function render() {
       badge.className = "crowd-badge";
       target.append(badge);
     }
-    const state = crowdState(records.get(target.dataset.crowdId), connected);
-    badge.dataset.tone = state.tone;
-    badge.textContent = target.closest("button") ? state.compact : state.text;
+    const record = records.get(target.dataset.crowdId);
+    const state = crowdState(record, connected);
+    const inButton = Boolean(target.closest("button"));
+    const colorCode = root.hasAttribute("data-crowd-button-colors") && inButton &&
+      ["quiet", "moderate", "busy", "closed"].includes(record?.status)
+      ? record.status : null;
+    badge.dataset.tone = colorCode || state.tone;
+    badge.textContent = colorCode && state.tone === "unknown"
+      ? `${STATUS[colorCode]}（要確認）`
+      : inButton ? state.compact : state.text;
     badge.title = state.text;
     badge.setAttribute("aria-label", state.text);
   }
