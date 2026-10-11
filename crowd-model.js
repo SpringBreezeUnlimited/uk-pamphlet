@@ -6,7 +6,7 @@ export const STATUS = Object.freeze({
   closed: "受付停止・終了",
   none: "なし",
 });
-export const STALE_MS = 15 * 60 * 1000;
+export const STALE_MS = 30 * 60 * 1000;
 export function crowdState(record, connected, now = Date.now()) {
   const code = record && Object.hasOwn(STATUS, record.status) ? record.status : "unknown";
   if (code === "none") return {tone: "unknown", compact: "情報なし", text: "情報なし"};
@@ -20,7 +20,7 @@ export function crowdState(record, connected, now = Date.now()) {
     compact: !connected ? "通信確認中" : stale ? "要確認" : label,
     text: !connected
       ? `最新情報を取得できません${known ? `（前回：${label}・${clock}更新）` : ""}`
-      : known ? `${label}・${clock}更新${stale ? "（15分以上経過・要確認）" : ""}` : "混雑状況：未更新",
+      : known ? `${label}・${clock}更新${stale ? "（30分以上経過・要確認）" : ""}` : "混雑状況：未更新",
   };
 }
 export function flattenEvents(data) {
