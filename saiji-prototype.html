@@ -212,7 +212,13 @@
       .room-label { font-size: 13px; font-weight: 800; line-height: 1.35; }
       .room-event { font-size: 12px; line-height: 1.4; color: var(--muted); }
       .room-btn.selected .room-event { color: #fff; }
-      .room-btn .crowd-badge { display: none; }
+      .room-btn > .crowd-badge {
+        display: inline-block;
+        margin: auto 0 0;
+        padding: 2px 6px;
+        font-size: 10px;
+        writing-mode: horizontal-tb;
+      }
       .room-btn:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
       .room-btn:active {
         transform: scale(0.95);
@@ -653,6 +659,7 @@
           items.filter(item => item.id).forEach(item => {
             const status = document.createElement("span");
             status.dataset.crowdId = item.id;
+            appendCrowdPlaceholder(status);
             button.append(status);
           });
         });
@@ -706,6 +713,14 @@
           name.textContent = item.name;
           button.append(name);
         }
+        if (item.id && item.name !== "（なし）") appendCrowdPlaceholder(button);
+      }
+      function appendCrowdPlaceholder(target) {
+        const badge = document.createElement("span");
+        badge.className = "crowd-badge";
+        badge.textContent = "情報なし";
+        badge.title = "混雑状況を取得できません";
+        target.append(badge);
       }
       function renderActivityZones() {
         activityZones.replaceChildren();
