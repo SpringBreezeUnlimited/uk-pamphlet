@@ -13,7 +13,7 @@
       content="black-translucent"
     />
     <meta name="apple-mobile-web-app-title" content="宇工祭2026" />
-    <title>宇工祭2026 デジタルパンフレット</title>
+    <title>宇工祭2026 催事一覧・試作版</title>
     <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <link rel="stylesheet" href="crowd.css" />
@@ -163,54 +163,111 @@
       }
       .floor {
         display: grid;
-        grid-template-columns: 69px 1fr;
+        grid-template-columns: 1fr;
         border-bottom: 2px solid var(--ink);
-        min-height: 128px;
       }
       .floor:last-child {
         border-bottom: 0;
       }
       .floor-label {
         display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 10px 12px 0;
+        font-weight: 800;
+        font-size: 17px;
+      }
+      .floor-label small {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .room-position-bar {
+        display: flex;
+        gap: 2px;
+        margin: 10px 12px 0;
+        padding: 3px;
+        border: 2px solid var(--ink);
+        border-radius: 8px;
+        background: #e8edf2;
+      }
+      .room-position {
+        flex: 1 1 0;
+        display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        border-right: 2px solid var(--ink);
+        min-width: 0;
+        min-height: 56px;
+        padding: 0;
+        border: 0;
+        border-radius: 4px;
+        background: #fffdf8;
+        color: var(--ink);
+        font-family: inherit;
+        font-size: 11px;
         font-weight: 800;
-        font-size: 18px;
-        line-height: 1.05;
+        line-height: 1;
+        cursor: pointer;
       }
-      .floor-label small {
-        font-size: 10px;
-        color: var(--muted);
-        margin-top: 4px;
-        font-weight: 600;
+      .position-lion {
+        display: none;
+        width: 25px;
+        height: 31px;
+        object-fit: contain;
       }
+      .stair-marker {
+        flex: 0 0 18px;
+        display: grid;
+        place-items: center;
+        color: var(--ink);
+      }
+      .stair-marker svg { width: 16px; height: 16px; }
+      .room-position.selected {
+        background: #fff2bd;
+        box-shadow: inset 0 0 0 2px var(--orange);
+      }
+      .room-position.selected .position-lion { display: block; }
+      .room-position:disabled { opacity: 0.4; cursor: default; }
+      .room-position:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
       .rooms {
         display: grid;
-        grid-template-columns: repeat(8, minmax(0, 1fr));
-        gap: 4px;
-        padding: 8px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        padding: 10px 12px 12px;
       }
       .room-btn {
         appearance: none;
         border: 2px solid var(--ink);
-        border-radius: 4px;
+        border-radius: 8px;
         background: #fffdf8;
         color: var(--ink);
-        padding: 4px 2px;
-        min-height: 108px;
-        font: 700 10px/1.1 inherit;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        padding: 10px;
+        min-height: 88px;
+        font: inherit;
+        text-align: left;
         cursor: pointer;
         transition:
           0.15s transform,
           0.15s background,
           0.15s color;
-        writing-mode: vertical-rl;
-        text-orientation: upright;
-        justify-self: stretch;
-        word-break: break-all;
+        overflow-wrap: anywhere;
       }
+      .room-label { font-size: 13px; font-weight: 800; line-height: 1.35; }
+      .room-event { font-size: 12px; line-height: 1.4; color: var(--muted); }
+      .room-btn.selected .room-event { color: #fff; }
+      .room-btn > .crowd-badge {
+        display: inline-block;
+        margin: auto 0 0;
+        padding: 2px 6px;
+        font-size: 10px;
+        writing-mode: horizontal-tb;
+      }
+      .room-btn:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
       .room-btn:active {
         transform: scale(0.95);
       }
@@ -269,13 +326,6 @@
         background: #e9b94f;
       }
       .detail {
-        margin: 0 15px;
-        padding: 0 0 calc(20px + env(safe-area-inset-bottom));
-        border-top: 3px solid var(--ink);
-        background: rgba(255, 253, 248, 0.96);
-      }
-      /* 詳細欄は、未選択時を含め常に画面下部へ固定表示する */
-      .detail {
         position: fixed;
         z-index: 20;
         left: 50%;
@@ -287,11 +337,10 @@
         transform: translateX(-50%);
         overflow-y: auto;
         border-top: 3px solid var(--ink);
+        background: rgba(255, 253, 248, 0.96);
         box-shadow: 0 -5px 16px rgba(24, 52, 77, 0.2);
       }
-      #app {
-        padding-bottom: 55dvh;
-      }
+      #app { padding-bottom: 55dvh; }
       .detail-title {
         display: flex;
         align-items: center;
@@ -309,12 +358,27 @@
       .detail-title h2 {
         font-size: 17px;
         margin: 0;
+        min-width: 0;
+        flex: 1;
       }
       .detail-title p {
         font-size: 11px;
         color: var(--muted);
-        margin: 0 0 0 auto;
+        margin: 0;
+        flex: none;
       }
+      .search-close {
+        flex: none;
+        padding: 5px 9px;
+        border: 2px solid var(--ink);
+        border-radius: 6px;
+        background: #fff;
+        color: var(--ink);
+        font: 700 12px inherit;
+        cursor: pointer;
+      }
+      .search-close[hidden] { display: none; }
+      .search-close:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
       .gym-detail-link {
         display: block;
         margin: 12px 0 4px;
@@ -416,18 +480,12 @@
         background: var(--paper);
       }
       @media (min-width: 520px) {
-        .room-btn {
-          font-size: 11px;
-          min-height: 112px;
-        }
-        .floor {
-          min-height: 132px;
-        }
+        .rooms { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       }
     </style>
   </head>
   <body>
-  <main id="app" class="detail-pinned">
+  <main id="app">
       <header class="banner">
         <img class="mascot" src="uk-lion.png" alt="UKライオン" />
         <div class="school">宇都宮工業高等学校</div>
@@ -488,11 +546,12 @@
         </div>
         <div id="activityZones"></div>
       </section>
-    <section class="detail is-pinned">
+    <section class="detail" id="detail" aria-label="選択した催し物の詳細">
         <div class="detail-title">
           <span class="tag" id="detailTag">案内</span>
           <h2 id="detailTitle">催し物を選んでください</h2>
           <p id="detailMeta"></p>
+          <button class="search-close" id="searchClose" type="button" aria-label="検索結果を閉じる" hidden>閉じる</button>
         </div>
         <div id="eventList">
           <div class="empty">
@@ -635,6 +694,7 @@
         detailTitle = document.getElementById("detailTitle"),
         detailTag = document.getElementById("detailTag"),
         detailMeta = document.getElementById("detailMeta"),
+        searchClose = document.getElementById("searchClose"),
         eventSearch = document.getElementById("eventSearch"),
         dataStatus = document.getElementById("dataStatus");
       let activeCategory = "";
@@ -664,17 +724,14 @@
           items.filter(item => item.id).forEach(item => {
             const status = document.createElement("span");
             status.dataset.crowdId = item.id;
+            appendCrowdPlaceholder(status);
             button.append(status);
           });
         });
         if (eventSearch.value || activeCategory) searchEvents();
         else if (resetSelection) {
           activate(null);
-          detailTitle.textContent = "催し物を選んでください";
-          detailTag.textContent = "案内";
-          detailMeta.textContent = "";
-          eventList.innerHTML = '<div class="empty">教室または体育館をタップすると、ここに催し物の詳細が表示されます。</div>';
-          detail.scrollTop = 0;
+          showGuide();
         }
         return revision;
       }
@@ -688,23 +745,75 @@
           const data = EVENTS[id] || { items: [] },
             row = document.createElement("div");
           row.className = "floor";
-          row.innerHTML = `<div class="floor-label">${label}<small>${grade}</small></div><div class="rooms"></div>`;
+          row.dataset.zone = id;
+          row.innerHTML = `<div class="floor-label">${label}<small>${grade}</small></div><div class="room-position-bar" role="group" aria-label="${label}の教室番号"></div><div class="rooms"></div>`;
+          const positionBar = row.querySelector(".room-position-bar");
+          positionBar.append(stairMarker());
+          for (let index = 0; index < 8; index++) {
+            if (index === 6) positionBar.append(stairMarker());
+            const number = Number(id[0]) * 100 + index + 1;
+            const position = document.createElement("button");
+            position.type = "button";
+            position.className = "room-position";
+            const lion = document.createElement("img");
+            lion.className = "position-lion";
+            lion.src = "uk-lion.png";
+            lion.alt = "";
+            lion.setAttribute("aria-hidden", "true");
+            const numberLabel = document.createElement("span");
+            numberLabel.textContent = number;
+            position.append(lion, numberLabel);
+            position.setAttribute("aria-label", `${number}教室の催事を表示`);
+            position.setAttribute("aria-pressed", "false");
+            position.disabled = !data.items[index];
+            position.addEventListener("click", () => selectRoom(id, index));
+            positionBar.append(position);
+          }
           const roomBox = row.querySelector(".rooms");
           data.items.forEach((item, index) => {
             const b = document.createElement("button");
             b.type = "button";
             b.className = "room-btn";
-            b.textContent = buttonLabel(item);
+            fillRoomButton(b, item);
             if (item.id && item.name !== "（なし）") b.dataset.crowdId = item.id;
             b.title = item.name;
-            b.addEventListener("click", () => selectRoom(id, index, b));
+            b.addEventListener("click", () => selectRoom(id, index));
             roomBox.appendChild(b);
           });
           floors.appendChild(row);
         });
       }
+      function stairMarker() {
+        const marker = document.createElement("span");
+        marker.className = "stair-marker";
+        marker.setAttribute("role", "img");
+        marker.setAttribute("aria-label", "階段");
+        marker.title = "階段";
+        marker.innerHTML = '<svg viewBox="0 0 28 28" aria-hidden="true"><path d="M2 24h6v-6h6v-6h6V6h6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        return marker;
+      }
       function buttonLabel(item) {
         return item.room || item.name || "催事";
+      }
+      function fillRoomButton(button, item) {
+        const room = document.createElement("span");
+        room.className = "room-label";
+        room.textContent = buttonLabel(item);
+        button.append(room);
+        if (item.name && item.name !== buttonLabel(item)) {
+          const name = document.createElement("span");
+          name.className = "room-event";
+          name.textContent = item.name;
+          button.append(name);
+        }
+        if (item.id && item.name !== "（なし）") appendCrowdPlaceholder(button);
+      }
+      function appendCrowdPlaceholder(target) {
+        const badge = document.createElement("span");
+        badge.className = "crowd-badge";
+        badge.textContent = "情報なし";
+        badge.title = "混雑状況を取得できません";
+        target.append(badge);
       }
       function renderActivityZones() {
         activityZones.replaceChildren();
@@ -715,16 +824,17 @@
           const data = EVENTS[id] || { items: [] },
             row = document.createElement("div");
           row.className = "floor";
+          row.dataset.zone = id;
           row.innerHTML = `<div class="floor-label">${label}<small>団体</small></div><div class="rooms"></div>`;
           const roomBox = row.querySelector(".rooms");
           data.items.forEach((item, index) => {
             const b = document.createElement("button");
             b.type = "button";
             b.className = "room-btn";
-            b.textContent = buttonLabel(item);
+            fillRoomButton(b, item);
             if (item.id && item.name !== "（なし）") b.dataset.crowdId = item.id;
             b.title = item.name;
-            b.addEventListener("click", () => selectRoom(id, index, b));
+            b.addEventListener("click", () => selectRoom(id, index));
             roomBox.appendChild(b);
           });
           activityZones.appendChild(row);
@@ -734,24 +844,28 @@
         document
           .querySelectorAll(".selected")
           .forEach((el) => el.classList.remove("selected"));
+        document.querySelectorAll('.room-position[aria-pressed="true"]').forEach((el) =>
+          el.setAttribute("aria-pressed", "false"),
+        );
         if (button) button.classList.add("selected");
       }
-      function selectRoom(zone, index, button) {
-        activate(button);
+      function selectRoom(zone, index) {
+        activate(null);
+        const row = document.querySelector(`.floor[data-zone="${zone}"]`);
+        row.querySelectorAll(".room-btn")[index]?.classList.add("selected");
+        const position = row.querySelectorAll(".room-position")[index];
+        position?.classList.add("selected");
+        position?.setAttribute("aria-pressed", "true");
         const data = EVENTS[zone],
           item = data.items[index];
         show(data.label + " " + item.name, data.building, item);
-        pinDetail();
+        detail.scrollTop = 0;
       }
       function selectZone(zone, button) {
         activate(button);
         const data = EVENTS[zone];
         show(data.label, data.building, null, data.items || [], zone);
-        pinDetail();
-      }
-      function pinDetail() {
-        detail.classList.add("is-pinned");
-        document.getElementById("app").classList.add("detail-pinned");
+        detail.scrollTop = 0;
       }
       function eventImage(ev) {
         const source = typeof ev.image === "string" && /^data:image\/(?:jpeg|png|webp);base64,[a-z\d+/=]+$/i.test(ev.image)
@@ -759,6 +873,7 @@
         return source ? `<img class="event-image" src="${source}" alt="${escapeHTML(ev.name)}の写真" loading="lazy">` : "";
       }
       function show(title, tag, item, items, zone) {
+        searchClose.hidden = true;
         detailTitle.textContent = title;
         detailTag.textContent = tag;
         const list = items || (item ? [item] : []);
@@ -781,6 +896,7 @@
         detail.scrollTop = 0;
       }
       function searchEvents() {
+        activate(null);
         const query = eventSearch.value.trim().toLocaleLowerCase("ja");
         const results = Object.entries(EVENTS).flatMap(([zone, data]) =>
           (data.items || []).map((item) => ({
@@ -799,12 +915,29 @@
         detailTitle.textContent = label ? `${label} の検索結果` : "すべての催事";
         detailTag.textContent = "検索";
         detailMeta.textContent = `${results.length}件`;
+        searchClose.hidden = false;
         eventList.innerHTML = results.length ? results.map((item) =>
           `<article class="event"${item.id ? ` data-crowd-id="${escapeHTML(item.id)}"` : ""}><div class="event-top"><div class="event-name">${escapeHTML(item.name)}</div>${item.time ? `<div class="event-time">${escapeHTML(item.time)}</div>` : ""}</div><div class="event-room">${escapeHTML([item.zoneLabel, item.room].filter(Boolean).join(" · "))}</div><span class="event-category">${escapeHTML(item.category)}</span>${item.desc ? `<div class="event-desc">${escapeHTML(item.desc)}</div>` : ""}${eventImage(item)}</article>`,
         ).join("") : '<div class="empty">条件に合う催事は見つかりませんでした。</div>';
         detail.scrollTop = 0;
-        pinDetail();
       }
+      function showGuide() {
+        detailTitle.textContent = "催し物を選んでください";
+        detailTag.textContent = "案内";
+        detailMeta.textContent = "";
+        searchClose.hidden = true;
+        eventList.innerHTML = '<div class="empty">教室または体育館をタップすると、ここに催し物の詳細が表示されます。</div>';
+        detail.scrollTop = 0;
+      }
+      searchClose.addEventListener("click", () => {
+        eventSearch.value = "";
+        activeCategory = "";
+        document.querySelectorAll(".category-filter").forEach((button) =>
+          button.classList.toggle("active", button.dataset.category === ""),
+        );
+        activate(null);
+        showGuide();
+      });
       function escapeHTML(s) {
         return String(s || "").replace(
           /[&<>'"]/g,
