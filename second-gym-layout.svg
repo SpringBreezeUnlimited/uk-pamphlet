@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 790" role="img" aria-labelledby="title desc">
+  <title id="title">第２体育館 会場案内図</title>
+  <desc id="desc">図の下側に出入口が２か所。奥側に機械システム系、電気情報システム系、建築デザイン系、環境建設システム系。左側に電子機械研究部、生産システム研究部。中央にJRC部、写真部、書道部。右側にサッカー部、無線研究部。</desc>
+  <style>
+    text{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;fill:#18344d}
+    .title{font-size:34px;font-weight:800}.sub{font-size:17px;fill:#526577}
+    .hall{fill:#f7f4eb;stroke:#18344d;stroke-width:5}
+    .zone{stroke:#18344d;stroke-width:2.5;rx:12}
+    .name{font-size:23px;font-weight:750;text-anchor:middle;dominant-baseline:middle}
+    .small{font-size:20px}.entry{fill:#18344d;rx:10}.entry-text{fill:#fff;font-size:23px;font-weight:800;text-anchor:middle;dominant-baseline:middle}
+  </style>
+  <rect width="1200" height="790" fill="#fffdf8"/>
+  <text class="title" x="40" y="48">第２体育館 会場案内図</text>
+  <text class="sub" x="1160" y="46" text-anchor="end">出入口は図の下側に２か所</text>
+
+  <path class="hall" d="M40 710V78H1160V710H730 M610 710H470 M350 710H40"/>
+
+  <rect class="zone" x="244" y="105" width="202" height="136" fill="#e7f1fb"/>
+  <text class="name small" x="345" y="173">機械システム系</text>
+  <rect class="zone" x="464" y="105" width="220" height="136" fill="#e7f1fb"/>
+  <text class="name small" x="574" y="173">電気情報システム系</text>
+  <rect class="zone" x="702" y="105" width="202" height="136" fill="#e7f1fb"/>
+  <text class="name small" x="803" y="173">建築デザイン系</text>
+  <rect class="zone" x="922" y="105" width="213" height="136" fill="#e7f1fb"/>
+  <text class="name small" x="1028" y="173">環境建設システム系</text>
+
+  <rect class="zone" x="66" y="290" width="182" height="167" fill="#f3eafa"/>
+  <text class="name small" x="157" y="374">電子機械研究部</text>
+  <rect class="zone" x="66" y="492" width="182" height="167" fill="#f3eafa"/>
+  <text class="name small" x="157" y="560"><tspan x="157">生産システム</tspan><tspan x="157" dy="33">研究部</tspan></text>
+
+  <rect class="zone" x="360" y="319" width="160" height="340" fill="#fff0d7"/>
+  <text class="name" x="440" y="489">JRC部</text>
+  <rect class="zone" x="520" y="319" width="310" height="161" fill="#fff0d7"/>
+  <text class="name" x="675" y="400">写真部</text>
+  <rect class="zone" x="520" y="498" width="310" height="161" fill="#fff0d7"/>
+  <text class="name" x="675" y="579">書道部</text>
+
+  <rect class="zone" x="904" y="319" width="230" height="216" fill="#e6f3eb"/>
+  <text class="name" x="1019" y="427">サッカー部</text>
+  <rect class="zone" x="884" y="570" width="250" height="89" fill="#e6f3eb"/>
+  <text class="name" x="1009" y="615">無線研究部</text>
+
+  <rect class="entry" x="350" y="704" width="120" height="53"/>
+  <text class="entry-text" x="410" y="731">出入口</text>
+  <rect class="entry" x="610" y="704" width="120" height="53"/>
+  <text class="entry-text" x="670" y="731">出入口</text>
+</svg>
