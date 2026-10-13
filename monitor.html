@@ -3,39 +3,50 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#18344d">
+  <meta name="theme-color" content="#142e43">
   <meta name="robots" content="noindex,nofollow">
-  <title>混雑状況｜宇工祭2026</title>
-  <link rel="stylesheet" href="crowd.css?v=20260925-colors">
-  <style>
-    :root{--ink:#14324a;--paper:#f7f2e6;--purple:#443088;--muted:#526574;--quiet-bg:var(--crowd-quiet-bg);--quiet-fg:var(--crowd-quiet-fg);--moderate-bg:var(--crowd-moderate-bg);--moderate-fg:var(--crowd-moderate-fg);--busy-bg:var(--crowd-busy-bg);--busy-fg:var(--crowd-busy-fg);--closed-bg:var(--crowd-closed-bg);--closed-fg:var(--crowd-closed-fg);--unknown-bg:var(--crowd-unknown-bg);--unknown-fg:var(--crowd-unknown-fg)}
-    *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden}body{background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif}
-    #screen{height:100dvh;display:flex;flex-direction:column;padding:clamp(12px,1.35vw,26px);gap:clamp(8px,.8vw,14px);background:linear-gradient(120deg,#fffdf8,#f4ecd9)}
-    header{display:grid;grid-template-columns:minmax(190px,1fr) auto auto;align-items:center;column-gap:clamp(14px,1.6vw,28px);flex:none;border-bottom:4px solid var(--ink);padding:0 0 clamp(8px,.8vw,14px)}
-    .title{min-width:0}.school{font-size:clamp(10px,.9vw,16px);font-weight:800;letter-spacing:.13em;color:#306486}.title h1{margin:2px 0 0;font-size:clamp(27px,2.8vw,48px);line-height:.95}.title h1 span{font-size:.68em;color:var(--purple);margin-left:7px}
-    .headline{text-align:right}.headline strong{display:block;font-size:clamp(20px,2.25vw,38px);line-height:1.1}.headline p{margin:4px 0 0;font-size:clamp(10px,.85vw,15px);font-weight:800;color:var(--muted)}
-    #fullscreen{min-height:clamp(42px,3.7vw,60px);padding:0 clamp(12px,1.1vw,20px);border:3px solid var(--ink);border-radius:8px;background:var(--purple);color:#fff;font:800 clamp(12px,1vw,17px) inherit;cursor:pointer}.fullscreen-note{display:none}
-    .legend{display:flex;justify-content:flex-end;gap:clamp(4px,.45vw,9px);margin-top:5px}.legend span{display:inline-flex;align-items:center;gap:4px;font-size:clamp(9px,.75vw,13px);font-weight:800;white-space:nowrap}.legend i{width:clamp(10px,.75vw,14px);height:clamp(10px,.75vw,14px);border:1px solid currentColor;border-radius:3px;background:var(--unknown-bg)}.legend .quiet i{background:var(--quiet-bg);color:var(--quiet-fg)}.legend .moderate i{background:var(--moderate-bg);color:var(--moderate-fg)}.legend .busy i{background:var(--busy-bg);color:var(--busy-fg)}.legend .closed i{background:var(--closed-bg);color:var(--closed-fg)}
-    .groups{min-height:0;flex:1;display:grid;grid-template-columns:repeat(18,minmax(0,1fr));grid-template-rows:repeat(12,minmax(0,1fr));gap:clamp(5px,.55vw,10px)}
-    .zone{min-height:0;border:3px solid var(--ink);border-radius:9px;background:rgba(255,255,255,.82);box-shadow:3px 4px 0 rgba(20,50,74,.13);overflow:hidden;display:flex;flex-direction:column}.zone[data-zone="3f"]{grid-column:1 / 12;grid-row:1 / 4}.zone[data-zone="2f"]{grid-column:1 / 12;grid-row:4 / 7}.zone[data-zone="1f"]{grid-column:1 / 12;grid-row:7 / 10}.zone[data-zone="admin"]{grid-column:1 / 12;grid-row:10 / 13}.zone[data-zone="courtyard"]{grid-column:12 / 15;grid-row:1 / 13;background:#d8ecf0}.zone[data-zone="gymB"]{grid-column:15 / 19;grid-row:1 / 7}.zone[data-zone="gymA"]{grid-column:15 / 19;grid-row:7 / 13}
-    .zone h2{flex:none;margin:0;padding:clamp(3px,.32vw,6px) clamp(8px,.65vw,12px);border-bottom:2px solid var(--ink);font-size:clamp(12px,1vw,18px);letter-spacing:.04em}.zone[data-zone="3f"] h2::after,.zone[data-zone="2f"] h2::after,.zone[data-zone="1f"] h2::after{content:"教室棟";margin-left:8px;font-size:.67em;font-weight:700;color:var(--muted)}.zone[data-zone="admin"] h2::after{content:"← 昇降口（入口）";float:right;font-size:.7em;font-weight:700;color:var(--muted)}
-    .tiles{min-height:0;flex:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(3px,.32vw,6px);padding:clamp(3px,.35vw,7px)}.zone[data-zone="gymA"] .tiles,.zone[data-zone="gymB"] .tiles{grid-template-columns:1fr}.zone[data-zone="courtyard"] .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.zone[data-zone="admin"] .tiles{grid-template-columns:repeat(3,minmax(0,1fr))}.zone[data-zone="3f"] .tiles,.zone[data-zone="1f"] .tiles{grid-template-columns:repeat(8,minmax(0,1fr))}.zone[data-zone="2f"] .tiles{grid-template-columns:repeat(7,minmax(0,1fr))}
-    .tile{min-width:0;min-height:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:clamp(4px,.45vw,8px);border:2px solid var(--ink);border-radius:6px;background:var(--unknown-bg);color:var(--unknown-fg);overflow:hidden}.tile[data-tone="quiet"]{background:var(--quiet-bg);color:var(--quiet-fg)}.tile[data-tone="moderate"]{background:var(--moderate-bg);color:var(--moderate-fg)}.tile[data-tone="busy"]{background:var(--busy-bg);color:var(--busy-fg)}.tile[data-tone="closed"]{background:var(--closed-bg);color:var(--closed-fg)}.tile[data-tone="unknown"]{background:var(--unknown-bg);color:var(--unknown-fg)}
-    .tile-room{font-size:clamp(10px,.85vw,15px);font-weight:900;line-height:1.05;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tile-name{width:100%;margin-top:2px;font-size:clamp(10px,.9vw,16px);font-weight:900;line-height:1.08;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tile .crowd-badge{display:inline-flex;align-items:center;min-height:0;flex:none;margin:clamp(3px,.28vw,5px) 0 0;max-width:100%;padding:2px 3px;border:1px solid currentColor;border-radius:4px;background:inherit;color:inherit;font-size:clamp(9px,.72vw,13px);font-weight:900;line-height:1.25;white-space:normal;overflow-wrap:anywhere;text-align:center}
-    .zone[data-zone="3f"] .tile,.zone[data-zone="2f"] .tile,.zone[data-zone="1f"] .tile{align-items:center;padding:clamp(3px,.3vw,6px)}.zone[data-zone="3f"] .tile-room,.zone[data-zone="2f"] .tile-room,.zone[data-zone="1f"] .tile-room{font-size:clamp(18px,1.6vw,30px);line-height:1}.zone[data-zone="3f"] .tile-name,.zone[data-zone="2f"] .tile-name,.zone[data-zone="1f"] .tile-name{display:none}.zone[data-zone="3f"] .tile .crowd-badge,.zone[data-zone="2f"] .tile .crowd-badge,.zone[data-zone="1f"] .tile .crowd-badge{margin-top:4px;font-size:clamp(9px,.75vw,14px)}
-    .zone[data-zone="courtyard"] .tile-room,.zone[data-zone="admin"] .tile-room{display:none}.zone[data-zone="courtyard"] .tile,.zone[data-zone="admin"] .tile{padding:clamp(3px,.32vw,6px)}.zone[data-zone="courtyard"] .tile-name,.zone[data-zone="admin"] .tile-name{margin:0;font-size:clamp(9px,.76vw,14px)}.zone[data-zone="admin"] .tile-name{font-size:clamp(11px,.95vw,17px);line-height:1.13;white-space:normal}.zone[data-zone="courtyard"] .tile-name{font-size:clamp(9px,.72vw,13px);line-height:1.12;white-space:normal}.zone[data-zone="courtyard"] .tile .crowd-badge,.zone[data-zone="admin"] .tile .crowd-badge{margin-top:2px;font-size:clamp(8px,.62vw,11px)}.zone[data-zone="admin"] .tile .crowd-badge{font-size:clamp(10px,.78vw,14px)}.zone[data-zone="courtyard"] .tile .crowd-badge{font-size:clamp(8px,.65vw,12px)}.zone[data-zone="courtyard"] .tile[data-status="none"] .tile-room,.zone[data-zone="admin"] .tile[data-status="none"] .tile-room{display:block;width:100%;white-space:normal;text-align:center}
-    @media (max-width:900px),(max-height:560px){#screen{padding:8px;gap:7px}header{border-bottom-width:2px;padding-bottom:5px}.school,.headline p,.legend{display:none}.groups{gap:4px}.zone,.entrance{border-width:2px}.zone h2{border-bottom-width:1px}.tile{border-width:1px}.fullscreen-note{display:inline}.tile-room{font-size:10px}.zone[data-zone="3f"] .tile-room,.zone[data-zone="2f"] .tile-room,.zone[data-zone="1f"] .tile-room{font-size:13px}.tile .crowd-badge{padding:1px 3px;font-size:8px}}
-  </style>
+  <title>普通教室棟の混雑状況｜宇工祭2026</title>
+  <link rel="stylesheet" href="monitor.css?v=20261013-classroom">
 </head>
 <body>
-  <main id="screen">
-    <header>
-      <div class="title"><div class="school">宇都宮工業高等学校</div><h1>宇工祭<span>2026</span></h1></div>
-      <div class="headline"><strong>会場の混雑状況</strong><p id="connection" role="status">混雑状況を確認しています…</p><div class="legend" aria-label="混雑状況の凡例"><span class="quiet"><i></i>空き</span><span class="moderate"><i></i>やや混雑</span><span class="busy"><i></i>混雑</span><span class="closed"><i></i>終了</span><span><i></i>要確認</span></div></div>
-      <button id="fullscreen" type="button">全画面表示<span class="fullscreen-note"> ⛶</span></button>
+  <main class="screen">
+    <header class="topbar">
+      <div class="brand"><span>宇工祭 2026</span><strong>普通教室棟の混雑状況</strong></div>
+      <div id="connection" class="connection" role="status" aria-live="polite">混雑状況を確認しています…</div>
+      <button id="fullscreen" class="control fullscreen" type="button">全画面表示</button>
     </header>
-    <section id="groups" class="groups" aria-label="催事ごとの混雑状況"></section>
+    <div class="intro">
+      <div><span class="eyebrow">1階から3階をひと目で確認</span><h1>教室棟の立体案内</h1></div>
+      <p>中庭側から見た配置イメージ · 左が正門側、右が体育館側</p>
+    </div>
+    <div class="main-layout">
+      <section class="building-panel" aria-label="教室棟の1階から3階までの配置">
+        <div class="orientation"><span>← 正門側</span><span>体育館側 →</span></div>
+        <div class="building">
+          <div class="roof"><span>普通教室棟</span></div>
+          <div id="floor-stack" class="floor-stack"></div>
+          <div class="ground"><span>正門・昇降口から</span><strong>中庭側</strong></div>
+        </div>
+        <div class="legend" aria-label="混雑状況の凡例">
+          <span class="quiet">空き</span><span class="moderate">やや混雑</span><span class="busy">混雑</span><span class="closed">終了</span><span class="unknown">要確認・情報なし</span>
+        </div>
+      </section>
+      <section class="detail-panel" aria-labelledby="detail-title">
+        <div class="detail-heading"><div><span class="eyebrow">選択中の階の催事</span><h2 id="detail-title">1階</h2></div><p id="detail-summary"></p></div>
+        <div id="detail-cards" class="detail-cards"></div>
+      </section>
+    </div>
+    <footer class="toolbar">
+      <div id="floor-tabs" class="floor-tabs" aria-label="表示する階"></div>
+      <div class="page-controls">
+        <button id="previous" class="control arrow" type="button" aria-label="前の階">‹</button>
+        <button id="toggle-auto" class="control auto-control" type="button">自動切替を停止</button>
+        <button id="next" class="control arrow" type="button" aria-label="次の階">›</button>
+      </div>
+      <span class="cycle-note">階段は各階の同じ位置にあります</span>
+    </footer>
   </main>
-  <script type="module" src="monitor.js?v=20260925-colors"></script>
+  <script src="map-local-data.js"></script>
+  <script src="monitor.js?v=20261013-classroom"></script>
 </body>
 </html>
