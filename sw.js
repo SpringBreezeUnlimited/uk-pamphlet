@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ukousai2026-v25-classroom-monitor';
+const CACHE_NAME = 'ukousai2026-v26-classroom-idfix';
 const ASSETS = [
   './',
   './index.html',
