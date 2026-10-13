@@ -3,7 +3,7 @@ import {auth, watchAdmin} from "./admin-access.js";
 
 const $ = id => document.getElementById(id);
 const next = new URLSearchParams(location.search).get("next");
-const destination = ["editor.html", "announcement-admin.html", "greeting-admin.html"].includes(next) ? next : null;
+const destination = ["editor.html", "announcement-admin.html", "greeting-admin.html", "gym-admin.html"].includes(next) ? next : null;
 let signingIn = false;
 function status(text) { $("status").textContent = text; }
 function showLogin() { $("loginPanel").hidden = false; $("menuPanel").hidden = true; }
