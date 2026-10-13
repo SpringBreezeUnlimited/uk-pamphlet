@@ -37,7 +37,9 @@ function flattenEvents(data) {
 function roomNumber(floor, position) { return String(floor.number * 100 + position); }
 function eventAt(floor, position) {
   const room = roomNumber(floor, position);
-  return events.find(event => event.zone === floor.zone && (event.room || "").startsWith(room));
+  const id = floor.zone + "-" + String(position).padStart(2, "0");
+  return events.find(event => event.id === id)
+    || events.find(event => event.zone === floor.zone && (event.room || "").startsWith(room));
 }
 function statusOf(event) {
   if (!event) return "empty";
