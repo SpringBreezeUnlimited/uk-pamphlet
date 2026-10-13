@@ -28,6 +28,7 @@
   h1 span{color:var(--orange);font-size:.86em;margin-left:3px}.theme{font-size:12px;margin-top:4px;font-weight:600;color:var(--muted)}
   .saiji-link{display:flex;align-items:center;justify-content:center;gap:10px;width:calc(100% - 32px);margin:18px auto calc(24px + env(safe-area-inset-bottom));padding:15px 18px;border:3px solid var(--ink);border-radius:7px;background:#443088;box-shadow:4px 4px 0 var(--ink);color:#fff;text-decoration:none;font-size:17px;font-weight:800;letter-spacing:.06em}.saiji-link:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}.saiji-link .arrow{font-size:22px;line-height:0}
   .line-entry{text-align:center;margin:24px 16px 28px}.line-entry p{margin:0 0 10px;font-size:16px;font-weight:800}.line-entry img{max-width:100%;height:36px}.line-entry a:focus-visible{outline:3px solid #306486;outline-offset:4px}
+  [hidden]{display:none!important}.survey-request{margin:24px 16px;padding:22px 18px;text-align:center;border:2px solid var(--ink);border-radius:9px;background:#fff;box-shadow:3px 4px 0 var(--line)}.survey-request h2{margin:0 0 8px;font-size:21px}.survey-request p{margin:0 0 18px;font-size:14px;line-height:1.6}.survey-button{display:block;width:100%;max-width:360px;margin:auto;padding:13px 16px;border:2px solid var(--ink);border-radius:6px;background:#443088;color:#fff;text-decoration:none;font-size:16px;font-weight:800;box-shadow:3px 3px 0 var(--ink)}.survey-button:hover{background:#35256d}.survey-button:focus-visible{outline:3px solid #306486;outline-offset:4px}
   html{scroll-behavior:smooth}
   .poster-story{position:relative;background:var(--cream)}
   .poster-stage{position:sticky;top:0;height:auto;overflow:hidden;background:var(--cream)}
@@ -84,6 +85,11 @@
     </nav>
   </section>
   <div class="line-entry"><p>宇工祭予約システムがLINEで稼働中！</p><a href="https://lin.ee/yJt1y0C"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" height="36" border="0"></a></div>
+  <section class="survey-request" id="surveyRequest" aria-labelledby="surveyTitle" hidden>
+    <h2 id="surveyTitle">アンケートのお願い</h2>
+    <p>宇工祭について、皆さまのご意見をお聞かせください。</p>
+    <a class="survey-button" id="surveyButton" href="#" target="_blank" rel="noopener noreferrer">アンケートに回答する</a>
+  </section>
   <hr>
   <h2>●お願い●</h2>
     <p>・会期中は､本校生徒のｽﾏﾎ等の利用を記録写真撮影のみ許可しています｡本校生徒との電話･SNS等での連絡のやり取りはご遠慮ください｡</p>
@@ -128,5 +134,6 @@
 if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 </script>
 <script type="module" src="announcement.js"></script>
+<script type="module" src="survey.js"></script>
 <script type="module" src="visit-counter.js"></script>
 </body></html>
