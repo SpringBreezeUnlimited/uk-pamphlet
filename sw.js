@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ukousai2026-v24-counter';
+const CACHE_NAME = 'ukousai2026-v25-classroom-monitor';
 const ASSETS = [
   './',
   './index.html',
@@ -22,6 +22,7 @@ const ASSETS = [
   './event-data.js',
   './firebase-config.js',
   './monitor.html',
+  './monitor.css',
   './monitor.js',
   './manifest.json',
   './events.json',
