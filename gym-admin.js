@@ -58,7 +58,8 @@ function addFirst(item = {}) {
   const panel = document.createElement("div");
   panel.className = "item";
   field(panel, "時間", "input", "item-time", item.time, 40);
-  field(panel, "出演団体・曲目など", "textarea", "item-act", item.act, 500, true);
+  field(panel, "出演団体名・曲目など", "textarea", "item-act", item.act, 500, true);
+  field(panel, "団体名の下に表示する紹介文（50字程度）", "textarea", "item-description", item.description, 50);
   button(panel, "この行を削除", "danger", () => panel.remove());
   firstItems.append(panel);
 }
@@ -174,6 +175,7 @@ firstForm.addEventListener("submit", event => {
   const items = [...firstItems.children].map(panel => ({
     time: panel.querySelector(".item-time").value.trim(),
     act: panel.querySelector(".item-act").value.trim(),
+    description: panel.querySelector(".item-description").value.trim(),
   }));
   save(firstForm, "first", items);
 });
