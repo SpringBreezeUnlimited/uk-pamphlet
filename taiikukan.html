@@ -1,70 +1,77 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta name="robots" content="noindex">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#18344d">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>体育館での特別催事｜宇工祭2026</title>
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="icon" href="lion-favicon.ico" type="image/x-icon">
-<link rel="stylesheet" href="announcement.css">
-<style>
-  :root{--ink:#18344d;--blue:#306486;--orange:#e8793b;--gold:#e9b94f;--paper:#f4ecd9;--cream:#fffdf8;--line:#d7c7aa;--muted:#617384}
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html,body{margin:0;min-height:100%;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif}
-  body{background-image:linear-gradient(rgba(97,115,132,.09) 1px,transparent 1px);background-size:100% 30px}
-  #app{width:min(100%,680px);min-height:100dvh;margin:auto;background:rgba(255,253,248,.8);border-inline:1px solid rgba(215,199,170,.55)}
-  .banner{position:relative;text-align:center;padding:calc(18px + env(safe-area-inset-top)) 56px 15px;border-bottom:3px solid var(--ink);background:rgba(255,253,248,.92)}
-  .mascot{position:absolute;left:16px;bottom:10px;width:auto;height:48px;object-fit:contain}.school{font-size:11px;letter-spacing:.12em;font-weight:700;color:var(--blue)}
-  h1{margin:3px 0 0;font-family:"Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;font-size:27px;letter-spacing:.06em;line-height:1.1}h1 span{color:var(--orange);font-size:.86em;margin-left:3px}.theme{font-size:12px;margin-top:4px;font-weight:600;color:var(--muted)}
-  .page-title{text-align:center;margin:20px 16px 17px;font-size:23px;letter-spacing:.08em}
-  .venue{margin:0 15px 20px;border:3px solid var(--ink);border-radius:7px;background:rgba(255,255,255,.87);box-shadow:3px 4px 0 rgba(24,52,77,.13);overflow:hidden}
-  .venue-head{padding:13px 15px 12px;border-bottom:2px solid var(--ink);background:var(--cream)}.venue-tag{display:inline-block;border:2px solid var(--ink);border-radius:999px;padding:2px 8px;background:#fff;font-size:10px;font-weight:800}.venue-head h2{margin:8px 0 0;font-size:21px;letter-spacing:.02em}.venue-head p{margin:6px 0 0;font-size:13px;line-height:1.65;color:#314b5c}
-  .section-title{margin:0;padding:12px 15px 8px;font-size:15px}.schedule{margin:0 13px 15px;border:2px solid var(--ink);border-radius:5px;overflow:hidden;background:#fff}.schedule-row{display:grid;grid-template-columns:145px minmax(0,1fr);min-height:47px;border-bottom:1px dashed var(--line)}.schedule-row:last-child{border-bottom:0}.schedule-time{display:flex;align-items:center;justify-content:center;padding:7px;border-right:1px dashed var(--line);font-size:12px;font-weight:800;color:var(--orange);white-space:nowrap}.schedule-act{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-width:0;padding:7px 11px;font-size:13px;font-weight:700}.schedule-act-description{margin-top:4px;color:#314b5c;font-weight:400;line-height:1.6}.pending{color:var(--muted);font-weight:500}
-  .exhibits{display:grid;gap:10px;padding:0 13px 15px}.exhibit{padding:12px;border:2px solid var(--ink);border-radius:5px;background:#fffdf8}.exhibit h3{margin:0;font-size:15px}.exhibit p{margin:6px 0 0;font-size:13px;line-height:1.6;color:#314b5c}
-  .schedule-act-name,.schedule-act-description,.exhibit p{white-space:pre-line}.exhibit-photo{display:block;width:100%;max-height:260px;object-fit:cover;margin:10px 0;border:1px solid var(--line);border-radius:4px}
-  .gym-map{margin:15px 13px 20px;padding:12px;border:2px solid var(--ink);border-radius:7px;background:#fffdf8}.gym-map h3{margin:0 0 5px;font-size:18px}.gym-map p{margin:0 0 10px;color:#314b5c;font-size:13px;line-height:1.6}.gym-map-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:5px;background:#fff;overscroll-behavior-inline:contain}.gym-map img{display:block;width:100%;min-width:720px;height:auto}.gym-map a{display:inline-block;margin-top:10px;color:#443088;font-size:14px;font-weight:800;text-underline-offset:3px}.gym-map a:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
-  .cover-link{display:flex;align-items:center;justify-content:center;gap:10px;width:calc(100% - 32px);margin:20px auto calc(24px + env(safe-area-inset-bottom));padding:14px 18px;border:3px solid var(--ink);border-radius:7px;background:var(--cream);box-shadow:4px 4px 0 var(--ink);color:var(--ink);text-decoration:none;font-size:16px;font-weight:800;letter-spacing:.06em}.cover-link:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}.arrow{font-size:21px;line-height:0}
-</style>
-</head>
-<body>
-<main id="app">
-  <header class="banner"><img class="mascot" src="uk-lion.png" alt="UKライオン"><div class="school">宇都宮工業高等学校</div><h1>宇工祭<span>2026</span></h1><div class="theme">〜 唯一無二の瞬間を 〜</div></header>
-  <aside class="announcement-bar" aria-label="お知らせ" hidden><span class="announcement-label">お知らせ</span><div class="announcement-window"><span class="announcement-text"></span></div></aside>
-  <h2 class="page-title">体育館での特別催事</h2>
-  <section class="venue" id="firstGym">
-    <div class="venue-head"><span class="venue-tag">第1体育館</span><h2>Lion Tech - Fes 2026</h2><p>ステージで披露される、宇工祭ならではのパフォーマンスをお楽しみください。</p></div>
-    <h3 class="section-title">出演タイムテーブル・セットリスト</h3>
-    <div class="schedule" aria-label="第1体育館 出演タイムテーブル">
-      <div class="schedule-row"><div class="schedule-time">時間未定</div><div class="schedule-act pending">出演団体を準備中です</div></div>
-      <div class="schedule-row"><div class="schedule-time">時間未定</div><div class="schedule-act pending">出演団体を準備中です</div></div>
-      <div class="schedule-row"><div class="schedule-time">時間未定</div><div class="schedule-act pending">出演団体を準備中です</div></div>
-      <div class="schedule-row"><div class="schedule-time">時間未定</div><div class="schedule-act pending">出演団体を準備中です</div></div>
-    </div>
-  </section>
-  <section class="venue" id="secondGym">
-    <div class="venue-head"><span class="venue-tag">第2体育館</span><h2>系ごとの展示</h2><p>4つの系が、それぞれの学びや技術の魅力を紹介します。</p></div>
-    <div class="gym-map" aria-labelledby="secondGymMapTitle">
-      <h3 id="secondGymMapTitle">会場案内図</h3>
-      <p>展示場所と出入口をご確認ください。スマートフォンでは図を左右にスクロールできます。</p>
-      <div class="gym-map-scroll"><img src="second-gym-layout.svg" alt="第2体育館の会場案内図。出入口は下側に2か所。奥側に機械システム系、電気情報システム系、建築デザイン系、環境建設システム系。左側に電子機械研究部と生産システム研究部。中央にJRC部、写真部、書道部。右側にサッカー部、無線研究部。"></div>
-      <a href="second-gym-layout.svg" target="_blank" rel="noopener">案内図を拡大して見る ↗</a>
-    </div>
-    <div class="exhibits">
-      <br>
-      <article class="exhibit"><h3>機械システム系</h3><p>機械システム系による展示を準備中です。</p></article>
-      <article class="exhibit"><h3>電気情報システム系</h3><p>電気情報システム系による展示を準備中です。</p></article>
-      <article class="exhibit"><h3>建築デザイン系</h3><p>建築デザイン系による展示を準備中です。</p></article>
-      <article class="exhibit"><h3>環境建設システム系</h3><p>環境建設システム系による展示を準備中です。</p></article>
-    </div>
-  </section>
-  <a class="cover-link" href="index.html"><span class="arrow" aria-hidden="true">←</span> 表紙へ戻る</a>
-</main>
-<script type="module" src="announcement.js"></script>
-<script type="module" src="gym.js"></script>
-</body>
-</html>
+const CACHE_NAME = 'ukousai2026-v28-second-gym-map';
+const ASSETS = [
+  './',
+  './index.html',
+  './saiji.html',
+  './map.html',
+  './map.png',
+  './map-links.json',
+  './map-positions.json',
+  './map-local-data.js',
+  './crowd.css',
+  './crowd-model.js',
+  './crowd-view.js',
+  './announcement.css',
+  './announcement.js',
+  './survey.js',
+  './aisatsu.html',
+  './greeting.js',
+  './taiikukan.html',
+  './gym.js',
+  './second-gym-layout.svg',
+  './visit-counter.js',
+  './crowd-firebase.js',
+  './event-data.js',
+  './firebase-config.js',
+  './monitor.html',
+  './monitor.css',
+  './monitor.js',
+  './manifest.json',
+  './events.json',
+  './icon-192.png',
+  './icon-512.png',
+  './apple-touch-icon.png'
+];
+
+self.addEventListener('install', (e) => {
+  e.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+  );
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((k) => k.startsWith('ukousai2026-') && k !== CACHE_NAME).map((k) => caches.delete(k)))
+    )
+  );
+  self.clients.claim();
+});
+
+// Firebaseの通信・管理画面はキャッシュしない。公開HTMLとデータはネット優先。
+self.addEventListener('fetch', (e) => {
+  const url = new URL(e.request.url);
+  if (e.request.method !== 'GET' || url.origin !== self.location.origin) return;
+  if (['/admin.html', '/admin.js', '/admin-access.js', '/editor.html', '/crowd-admin.html', '/crowd-admin.js', '/announcement-admin.html', '/announcement-admin.js', '/survey-admin.html', '/survey-admin.js', '/greeting-admin.html', '/greeting-admin.js', '/gym-admin.html', '/gym-admin.js'].some(path => url.pathname.endsWith(path))) return;
+  const isLiveAsset = e.request.mode === 'navigate' || /\.(html|json|js|css)$/.test(url.pathname);
+  if (isLiveAsset) {
+    const cacheKey = new Request(url.origin + url.pathname);
+    e.respondWith(
+      fetch(e.request, {cache: 'no-store'})
+        .then(async (res) => {
+          if (res.ok) {
+            const cache = await caches.open(CACHE_NAME);
+            await cache.put(cacheKey, res.clone());
+          }
+          return res;
+        })
+        .catch(async () => (await caches.match(cacheKey)) || Response.error())
+    );
+    return;
+  }
+
+  e.respondWith(
+    caches.match(e.request).then((cached) => cached || fetch(e.request))
+  );
+});
