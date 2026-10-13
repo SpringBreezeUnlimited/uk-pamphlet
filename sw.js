@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ukousai2026-v27-survey';
+const CACHE_NAME = 'ukousai2026-v28-second-gym-map';
 const ASSETS = [
   './',
   './index.html',
@@ -18,6 +18,7 @@ const ASSETS = [
   './greeting.js',
   './taiikukan.html',
   './gym.js',
+  './second-gym-layout.svg',
   './visit-counter.js',
   './crowd-firebase.js',
   './event-data.js',
