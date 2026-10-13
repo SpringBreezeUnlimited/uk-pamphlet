@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ukousai2026-v21-announcement';
+const CACHE_NAME = 'ukousai2026-v22-greetings';
 const ASSETS = [
   './',
   './index.html',
@@ -13,6 +13,8 @@ const ASSETS = [
   './crowd-view.js',
   './announcement.css',
   './announcement.js',
+  './aisatsu.html',
+  './greeting.js',
   './crowd-firebase.js',
   './event-data.js',
   './firebase-config.js',
@@ -45,7 +47,7 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== self.location.origin) return;
-  if (['/admin.html', '/admin.js', '/admin-access.js', '/editor.html', '/crowd-admin.html', '/crowd-admin.js', '/announcement-admin.html', '/announcement-admin.js'].some(path => url.pathname.endsWith(path))) return;
+  if (['/admin.html', '/admin.js', '/admin-access.js', '/editor.html', '/crowd-admin.html', '/crowd-admin.js', '/announcement-admin.html', '/announcement-admin.js', '/greeting-admin.html', '/greeting-admin.js'].some(path => url.pathname.endsWith(path))) return;
   const isLiveAsset = e.request.mode === 'navigate' || /\.(html|json|js|css)$/.test(url.pathname);
   if (isLiveAsset) {
     const cacheKey = new Request(url.origin + url.pathname);
@@ -67,4 +69,3 @@ self.addEventListener('fetch', (e) => {
     caches.match(e.request).then((cached) => cached || fetch(e.request))
   );
 });
-
