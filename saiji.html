@@ -444,8 +444,18 @@
       .event:last-child {
         border-bottom: 0;
       }
+      .event-layout {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .event-content {
+        flex: 1;
+        min-width: 0;
+      }
       .event-top {
         display: flex;
+        flex-wrap: wrap;
         gap: 8px;
         align-items: baseline;
         justify-content: space-between;
@@ -472,13 +482,16 @@
       }
       .event-image {
         display: block;
-        width: min(62%, 260px);
-        aspect-ratio: 16/9;
+        flex: 0 0 84px;
+        width: 84px;
+        height: 84px;
         object-fit: cover;
-        margin: 12px auto 4px;
         border: 1px dashed var(--line);
         border-radius: 4px;
         background: var(--paper);
+      }
+      @media (max-width: 360px) {
+        .event-image { flex-basis: 72px; width: 72px; height: 72px; }
       }
       @media (min-width: 520px) {
         .rooms { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -486,7 +499,7 @@
     </style>
   </head>
   <body>
-  <main id="app">
+  <main id="app" data-crowd-button-colors>
       <header class="banner">
         <img class="mascot" src="uk-lion.png" alt="UKライオン" />
         <div class="school">宇都宮工業高等学校</div>
@@ -883,7 +896,7 @@
           ? list
               .map(
                 (ev) =>
-                  `<article class="event"${ev.id && ev.name !== "（なし）" ? ` data-crowd-id="${escapeHTML(ev.id)}"` : ""}><div class="event-top"><div class="event-name">${escapeHTML(ev.name)}</div>${ev.time ? `<div class="event-time">${escapeHTML(ev.time)}</div>` : ""}</div>${ev.room ? `<div class="event-room">${escapeHTML(ev.room)}</div>` : ""}${ev.desc ? `<div class="event-desc">${escapeHTML(ev.desc)}</div>` : ""}${eventImage(ev)}</article>`,
+                  `<article class="event"${ev.id && ev.name !== "（なし）" ? ` data-crowd-id="${escapeHTML(ev.id)}"` : ""}><div class="event-layout">${eventImage(ev)}<div class="event-content"><div class="event-top"><div class="event-name">${escapeHTML(ev.name)}</div>${ev.time ? `<div class="event-time">${escapeHTML(ev.time)}</div>` : ""}</div>${ev.room ? `<div class="event-room">${escapeHTML(ev.room)}</div>` : ""}${ev.desc ? `<div class="event-desc">${escapeHTML(ev.desc)}</div>` : ""}</div></div></article>`,
               )
               .join("")
           : '<div class="empty">この会場の催し物は準備中です。</div>';
@@ -918,7 +931,7 @@
         detailTag.textContent = "検索";
         detailMeta.textContent = `${results.length}件`;
         eventList.innerHTML = results.length ? results.map((item) =>
-          `<article class="event"${item.id ? ` data-crowd-id="${escapeHTML(item.id)}"` : ""}><div class="event-top"><div class="event-name">${escapeHTML(item.name)}</div>${item.time ? `<div class="event-time">${escapeHTML(item.time)}</div>` : ""}</div><div class="event-room">${escapeHTML([item.zoneLabel, item.room].filter(Boolean).join(" · "))}</div><span class="event-category">${escapeHTML(item.category)}</span>${item.desc ? `<div class="event-desc">${escapeHTML(item.desc)}</div>` : ""}${eventImage(item)}</article>`,
+          `<article class="event"${item.id ? ` data-crowd-id="${escapeHTML(item.id)}"` : ""}><div class="event-layout">${eventImage(item)}<div class="event-content"><div class="event-top"><div class="event-name">${escapeHTML(item.name)}</div>${item.time ? `<div class="event-time">${escapeHTML(item.time)}</div>` : ""}</div><div class="event-room">${escapeHTML([item.zoneLabel, item.room].filter(Boolean).join(" · "))}</div><span class="event-category">${escapeHTML(item.category)}</span>${item.desc ? `<div class="event-desc">${escapeHTML(item.desc)}</div>` : ""}</div></div></article>`,
         ).join("") : '<div class="empty">条件に合う催事は見つかりませんでした。</div>';
         detail.scrollTop = 0;
       }
