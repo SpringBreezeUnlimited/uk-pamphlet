@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ukousai2026-v23-gym';
+const CACHE_NAME = 'ukousai2026-v24-counter';
 const ASSETS = [
   './',
   './index.html',
@@ -17,6 +17,7 @@ const ASSETS = [
   './greeting.js',
   './taiikukan.html',
   './gym.js',
+  './visit-counter.js',
   './crowd-firebase.js',
   './event-data.js',
   './firebase-config.js',
