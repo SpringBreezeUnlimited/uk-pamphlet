@@ -26,7 +26,9 @@ onSnapshot(doc(db, "gymContent", "first"), snapshot => {
   for (const item of items) {
     const row = addText(schedule, "div", "schedule-row", "");
     addText(row, "div", "schedule-time", item.time || "時間未定");
-    addText(row, "div", "schedule-act", item.act || "内容を準備中です");
+    const act = addText(row, "div", "schedule-act", "");
+    addText(act, "div", "schedule-act-name", item.act || "内容を準備中です");
+    if (item.description) addText(act, "div", "schedule-act-description", item.description);
   }
 }, error => console.warn("第1体育館の内容を読み込めませんでした", error));
 
