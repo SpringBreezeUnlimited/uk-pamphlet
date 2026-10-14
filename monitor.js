@@ -29,6 +29,29 @@ function element(tag, className, value) {
   if (value !== undefined) node.textContent = value;
   return node;
 }
+function utilityIcon(type) {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 48 48");
+  svg.setAttribute("aria-hidden", "true");
+  const shapes = type === "stair"
+    ? [
+        ["path", {d:"M3 43h42M3 43v-7h8v-7h8v-7h8v-7h8V8h10", fill:"none", stroke:"currentColor", "stroke-width":"3", "stroke-linecap":"round", "stroke-linejoin":"round"}],
+        ["path", {d:"M5 24 39 4M11 21v15M23 14v15M35 7v15", fill:"none", stroke:"currentColor", "stroke-width":"2", "stroke-linecap":"round"}],
+      ]
+    : [
+        ["circle", {cx:"13", cy:"8", r:"4", fill:"currentColor"}],
+        ["path", {d:"M9 15h8l3 15h-3v13h-3V30h-2v13H9V30H6z", fill:"currentColor"}],
+        ["circle", {cx:"35", cy:"8", r:"4", fill:"currentColor"}],
+        ["path", {d:"M31 15h8l5 17h-5v11h-3V32h-2v11h-3V32h-5z", fill:"currentColor"}],
+        ["path", {d:"M24 4v39", fill:"none", stroke:"currentColor", "stroke-width":"2"}],
+      ];
+  for (const [tag, attributes] of shapes) {
+    const shape = document.createElementNS("http://www.w3.org/2000/svg", tag);
+    for (const [name, value] of Object.entries(attributes)) shape.setAttribute(name, value);
+    svg.append(shape);
+  }
+  return svg;
+}
 function flattenEvents(data) {
   return Object.entries(data).flatMap(([zone, group]) => (group.items || [])
     .filter(item => item.name && item.name !== "（なし）")
@@ -65,8 +88,9 @@ function roomCell(floor, position) {
 }
 function utilityCell(type) {
   const cell = element("div", "building-cell " + type);
-  if (type === "stair") cell.append(element("b", "", "▂▅"), element("span", "", "階段"));
-  else cell.textContent = "トイレ";
+  const label = type === "stair" ? "階段" : "トイレ";
+  cell.setAttribute("aria-label", label);
+  cell.append(utilityIcon(type), element("span", "", label));
   return cell;
 }
 function renderBuilding() {
@@ -89,10 +113,11 @@ function detailCard(floor, position) {
   const event = eventAt(floor, position);
   const status = statusOf(event);
   const number = roomNumber(floor, position);
+  const place = typeof event?.room === "string" && event.room.trim() ? event.room.trim() : number + "教室";
   const card = element("article", "detail-card");
   card.dataset.tone = toneOf(status);
-  card.append(element("div", "number", number + "教室"), element("div", "event-name", event?.name || "催事なし"), element("div", "status", statusNames[status]));
-  card.setAttribute("aria-label", number + "教室、" + (event?.name || "催事なし") + "、" + statusNames[status]);
+  card.append(element("div", "place", place), element("div", "event-name", event?.name || "催事なし"), element("div", "status", statusNames[status]));
+  card.setAttribute("aria-label", place + "、" + (event?.name || "催事なし") + "、" + statusNames[status]);
   return card;
 }
 function renderDetails() {
