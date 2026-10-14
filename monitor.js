@@ -5,6 +5,7 @@ const detailSummary = document.getElementById("detail-summary");
 const connection = document.getElementById("connection");
 const tabs = document.getElementById("floor-tabs");
 const autoButton = document.getElementById("toggle-auto");
+const intervalInput = document.getElementById("cycle-seconds");
 const fullscreenButton = document.getElementById("fullscreen");
 const demo = new URLSearchParams(location.search).has("demo") || location.protocol === "file:";
 const floors = [
@@ -14,7 +15,17 @@ const floors = [
 ];
 const statusNames = {quiet:"空き",moderate:"やや混雑",busy:"混雑",closed:"終了",none:"情報なし",unknown:"要確認",empty:"催事なし"};
 const layout = ["stair","toilet",1,2,3,4,5,"stair",6,7,"toilet",8];
-const intervalMs = 18000;
+const intervalStorageKey = "ukousai2026-monitor-cycle-seconds";
+function readIntervalSeconds() {
+  try {
+    const saved = localStorage.getItem(intervalStorageKey);
+    const value = Number(saved);
+    if (saved !== null && Number.isInteger(value) && value >= 3 && value <= 300) return value;
+  } catch { /* 保存を使えない環境では初期値を使う。 */ }
+  return 18;
+}
+let intervalSeconds = readIntervalSeconds();
+intervalInput.value = String(intervalSeconds);
 let events = [];
 let records = new Map();
 let fresh = false;
@@ -154,7 +165,7 @@ function render() {
 }
 function restartTimer() {
   clearInterval(timer);
-  if (automatic) timer = setInterval(() => selectFloor((selectedIndex + 1) % floors.length, false), intervalMs);
+  if (automatic) timer = setInterval(() => selectFloor((selectedIndex + 1) % floors.length, false), intervalSeconds * 1000);
 }
 function selectFloor(index, manual) {
   selectedIndex = (index + floors.length) % floors.length;
@@ -164,6 +175,16 @@ function selectFloor(index, manual) {
 document.getElementById("previous").addEventListener("click", () => selectFloor(selectedIndex - 1, true));
 document.getElementById("next").addEventListener("click", () => selectFloor(selectedIndex + 1, true));
 autoButton.addEventListener("click", () => {automatic = !automatic; render(); restartTimer();});
+intervalInput.addEventListener("change", () => {
+  const value = Number(intervalInput.value);
+  if (!Number.isInteger(value) || value < 3 || value > 300) {
+    intervalInput.value = String(intervalSeconds);
+    return;
+  }
+  intervalSeconds = value;
+  try { localStorage.setItem(intervalStorageKey, String(value)); } catch {}
+  restartTimer();
+});
 fullscreenButton.addEventListener("click", async () => {
   try { if (document.fullscreenElement) await document.exitFullscreen(); else await document.documentElement.requestFullscreen(); } catch {}
 });
