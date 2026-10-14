@@ -24,6 +24,8 @@ const defaults = {
 let loaded = false;
 let loading = false;
 let pendingPhotos = 0;
+const MAX_SECOND_ITEMS = 20;
+const MAX_PHOTO_LENGTH = 30000;
 
 function showStatus(message, error = false) {
   status.textContent = message;
@@ -65,8 +67,8 @@ function addFirst(item = {}) {
 }
 
 async function compressImage(file) {
-  if (!file.type.startsWith("image/")) throw new Error("画像ファイルを選んでください。");
-  const source = URL.createObjectURL(file);
+  if (typeof file !== "string" && !file.type.startsWith("image/")) throw new Error("画像ファイルを選んでください。");
+  const source = typeof file === "string" ? file : URL.createObjectURL(file);
   try {
     const image = new Image();
     await new Promise((resolve, reject) => {
@@ -76,7 +78,7 @@ async function compressImage(file) {
     });
     const canvas = document.createElement("canvas");
     let output = "";
-    for (const maxSize of [1000, 800, 600, 400]) {
+    for (const maxSize of [800, 600, 400, 320, 240]) {
       const scale = Math.min(1, maxSize / Math.max(image.naturalWidth, image.naturalHeight));
       canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
       canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
@@ -85,19 +87,19 @@ async function compressImage(file) {
       context.fillStyle = "#fff";
       context.fillRect(0, 0, canvas.width, canvas.height);
       context.drawImage(image, 0, 0, canvas.width, canvas.height);
-      for (const quality of [.8, .65, .5, .35]) {
+      for (const quality of [.8, .65, .5, .35, .25]) {
         output = canvas.toDataURL("image/jpeg", quality);
-        if (output.length < 100000) break;
+        if (output.length < MAX_PHOTO_LENGTH) break;
       }
-      if (output.length < 100000) break;
+      if (output.length < MAX_PHOTO_LENGTH) break;
     }
-    if (output.length >= 100000) throw new Error("写真の容量が大きすぎます。小さい画像を選んでください。");
+    if (output.length >= MAX_PHOTO_LENGTH) throw new Error("写真の容量が大きすぎます。小さい画像を選んでください。");
     return output;
-  } finally { URL.revokeObjectURL(source); }
+  } finally { if (typeof file !== "string") URL.revokeObjectURL(source); }
 }
 
 function addSecond(item = {}) {
-  if (secondItems.children.length >= 8) { showStatus("第2体育館は8団体まで設定できます。", true); return; }
+  if (secondItems.children.length >= MAX_SECOND_ITEMS) { showStatus(`第2体育館は${MAX_SECOND_ITEMS}団体まで設定できます。`, true); return; }
   const panel = document.createElement("div");
   panel.className = "item";
   panel._photo = typeof item.photo === "string" && item.photo.startsWith("data:image/jpeg;base64,") ? item.photo : "";
@@ -179,14 +181,27 @@ firstForm.addEventListener("submit", event => {
   }));
   save(firstForm, "first", items);
 });
-secondForm.addEventListener("submit", event => {
+secondForm.addEventListener("submit", async event => {
   event.preventDefault();
-  const items = [...secondItems.children].map(panel => ({
-    name: panel.querySelector(".item-name").value.trim(),
-    description: panel.querySelector(".item-description").value.trim(),
-    photo: panel._photo || "",
-  }));
-  save(secondForm, "second", items);
+  if (pendingPhotos) { showStatus("写真の準備が終わってから保存してください。", true); return; }
+  const submit = secondForm.querySelector('[type="submit"]');
+  submit.disabled = true;
+  try {
+    for (const panel of secondItems.children) {
+      if (panel._photo.length >= MAX_PHOTO_LENGTH) {
+        panel._photo = await compressImage(panel._photo);
+        panel.querySelector(".preview").src = panel._photo;
+      }
+    }
+    const items = [...secondItems.children].map(panel => ({
+      name: panel.querySelector(".item-name").value.trim(),
+      description: panel.querySelector(".item-description").value.trim(),
+      photo: panel._photo || "",
+    }));
+    await save(secondForm, "second", items);
+  } catch (error) {
+    showStatus(error.message || "写真を処理できませんでした。", true);
+  } finally { submit.disabled = false; }
 });
 
 watchAdmin({
