@@ -5,7 +5,7 @@ import {db} from "./crowd-firebase.js";
 
 const $ = id => document.getElementById(id);
 const next = new URLSearchParams(location.search).get("next");
-const destination = ["editor.html", "announcement-admin.html", "survey-admin.html", "greeting-admin.html", "gym-admin.html"].includes(next) ? next : null;
+const destination = ["editor.html", "announcement-admin.html", "popup-announcement-admin.html", "survey-admin.html", "greeting-admin.html", "gym-admin.html"].includes(next) ? next : null;
 let signingIn = false;
 const counterRef = collection(db, "visitCounters");
 let stopCounter = null;
