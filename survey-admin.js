@@ -7,6 +7,7 @@ const editor = document.getElementById("editor");
 const form = document.getElementById("surveyForm");
 const label = document.getElementById("label");
 const url = document.getElementById("url");
+const popupEnabled = document.getElementById("popupEnabled");
 const save = document.getElementById("save");
 const survey = doc(db, "siteContent", "survey");
 let loaded = false;
@@ -28,6 +29,7 @@ watchAdmin({
       const data = snapshot.exists() ? snapshot.data() : {};
       label.value = typeof data.label === "string" ? data.label : "アンケートに回答する";
       url.value = typeof data.url === "string" ? data.url : "";
+      popupEnabled.checked = data.popupEnabled === true;
       loaded = true;
       editor.hidden = false;
       showStatus("現在のアンケート設定を読み込みました。");
@@ -54,14 +56,21 @@ form.addEventListener("submit", async event => {
       return;
     }
   }
+  if (popupEnabled.checked && !link) {
+    showStatus("ポップアップを表示するにはアンケートURLを入力してください。", true);
+    url.focus();
+    return;
+  }
   if (!navigator.onLine) { showStatus("通信が切れています。接続が戻ってから保存してください。", true); return; }
   save.disabled = true;
   showStatus("保存しています…");
   try {
-    await setDoc(survey, {label: buttonLabel, url: link, updatedAt: serverTimestamp()});
+    await setDoc(survey, {label: buttonLabel, url: link, popupEnabled: popupEnabled.checked, updatedAt: serverTimestamp()});
     label.value = buttonLabel;
     url.value = link;
-    showStatus(link ? "保存しました。表紙にアンケートボタンが表示されます。" : "保存しました。表紙のアンケート欄は非表示になります。");
+    showStatus(!link ? "保存しました。表紙のアンケート欄は非表示になります。" : popupEnabled.checked
+      ? "保存しました。表紙のアンケート欄とポップアップが有効になりました。"
+      : "保存しました。表紙のアンケート欄を表示し、ポップアップは非表示にします。");
   } catch (error) {
     showStatus(error.code === "permission-denied" ? "保存権限がありません。管理者権限とFirestoreのルールを確認してください。" : "保存できませんでした。通信を確認して再試行してください。", true);
   } finally { save.disabled = false; }
