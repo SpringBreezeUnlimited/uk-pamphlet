@@ -1,52 +1,57 @@
-<!doctype html>
-<html lang="ja">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="robots" content="noindex,nofollow">
-  <meta name="theme-color" content="#18344d">
-  <title>体育館の内容を更新｜宇工祭</title>
-  <style>
-    :root{--ink:#18344d;--purple:#443088;--paper:#f4ecd9;--muted:#526577}
-    *{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.6}
-    main{width:min(100%,850px);min-height:100dvh;margin:auto;padding:32px 18px 54px;background:#fffdf8}.eyebrow{margin:0 0 5px;color:var(--purple);font-size:13px;font-weight:800}h1{margin:0 0 8px;font-size:clamp(25px,5vw,34px)}h2{margin:0 0 14px;font-size:21px}h3{margin:0 0 10px;font-size:16px}.lead{color:var(--muted);margin:0 0 22px}.status{padding:13px 15px;border-left:4px solid var(--purple);background:#f0ecf7;border-radius:5px;margin:0 0 22px}.status.error{border-color:#b13838;background:#fff1ee}
-    .card{background:#fff;border:1px solid #d7c7aa;border-radius:10px;padding:22px;margin-bottom:22px;box-shadow:2px 3px 0 #d7c7aa}.item{border:1px solid #c9bbd9;border-radius:7px;padding:14px;margin:12px 0;background:#faf8ff}label{display:block;font-weight:700;margin:0 0 14px}input:not([type=file]),textarea{display:block;width:100%;margin-top:6px;padding:10px;border:1.5px solid var(--ink);border-radius:5px;font:inherit}textarea{min-height:110px;resize:vertical}input[type=file]{display:block;margin-top:7px;max-width:100%}.preview{display:block;width:170px;height:120px;object-fit:cover;border:1px solid #d7c7aa;border-radius:5px;margin:8px 0}.hint{font-size:13px;color:var(--muted)}button{min-height:44px;padding:9px 16px;border:2px solid var(--purple);border-radius:5px;background:var(--purple);color:#fff;font:700 15px inherit;cursor:pointer}button.secondary{background:#fff;color:var(--purple)}button.danger{border-color:#a33e35;color:#a33e35;background:#fff}button:disabled{opacity:.6;cursor:wait}a{color:var(--purple)}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #397cad;outline-offset:3px}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}.back{display:inline-block;margin-top:12px;font-weight:700}
-  </style>
-</head>
-<body>
-<main>
-  <p class="eyebrow">宇工祭 · 生徒会役員用</p>
-  <h1>体育館の内容を更新</h1>
-  <p class="lead">第1体育館と第2体育館は別々に保存します。各「保存」ボタンを押すと来場者向けページに反映されます。</p>
-  <p id="status" class="status" role="status" aria-live="polite">管理者権限を確認しています…</p>
-  <section id="editor" hidden>
-    <form id="firstForm" class="card">
-      <h2>第1体育館 · セットリスト</h2>
-      <label>見出し<input name="title" maxlength="100" required></label>
-      <label>第1体育館全体の紹介文<textarea name="description" maxlength="1000"></textarea></label>
-      <h3>出演時間・団体名・紹介文</h3>
-      <p class="hint">各行の紹介文は団体名の下に表示されます（50字程度）。</p>
-      <div id="firstItems"></div>
-      <div class="actions"><button id="addFirst" class="secondary" type="button">行を追加</button><button type="submit">第1体育館を保存</button></div>
-    </form>
-    <form id="secondForm" class="card">
-      <h2>第2体育館 · 団体紹介</h2>
-      <label>見出し<input name="title" maxlength="100" required></label>
-      <label>紹介文<textarea name="description" maxlength="1000"></textarea></label>
-      <h3>参加団体</h3>
-      <div id="secondItems"></div>
-      <p class="hint">最大20団体まで、団体ごとに名前・写真・説明文を設定できます。写真は自動で縮小されます。</p>
-      <div class="actions"><button id="addSecond" class="secondary" type="button">団体を追加</button><button type="submit">第2体育館を保存</button></div>
-    </form>
-  </section>
-  <a class="back" href="admin.html">← 管理者トップに戻る</a>
-</main>
-<script type="module">
-  import("./gym-admin.js").catch(() => {
-    const status = document.getElementById("status");
-    status.textContent = "管理画面を読み込めません。通信を確認して再読み込みしてください。";
-    status.classList.add("error");
-  });
-</script>
-</body>
-</html>
+import {doc, onSnapshot} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+import {db} from "./crowd-firebase.js";
+
+function addText(parent, tag, className, value) {
+  const element = document.createElement(tag);
+  element.className = className;
+  element.textContent = value;
+  parent.append(element);
+  return element;
+}
+
+const first = document.getElementById("firstGym");
+onSnapshot(doc(db, "gymContent", "first"), snapshot => {
+  if (!snapshot.exists()) return;
+  const data = snapshot.data();
+  first.querySelector(".venue-head h2").textContent = data.title || "第1体育館";
+  first.querySelector(".venue-head p").textContent = data.description || "";
+  const schedule = first.querySelector(".schedule");
+  schedule.replaceChildren();
+  const items = Array.isArray(data.items) ? data.items : [];
+  if (!items.length) {
+    const row = addText(schedule, "div", "schedule-row", "");
+    addText(row, "div", "schedule-time", "時間未定");
+    addText(row, "div", "schedule-act pending", "セットリストを準備中です。");
+  }
+  for (const item of items) {
+    const row = addText(schedule, "div", "schedule-row", "");
+    addText(row, "div", "schedule-time", item.time || "時間未定");
+    const act = addText(row, "div", "schedule-act", "");
+    addText(act, "div", "schedule-act-name", item.act || "内容を準備中です");
+    if (item.description) addText(act, "div", "schedule-act-description", item.description);
+  }
+}, error => console.warn("第1体育館の内容を読み込めませんでした", error));
+
+const second = document.getElementById("secondGym");
+onSnapshot(doc(db, "gymContent", "second"), snapshot => {
+  if (!snapshot.exists()) return;
+  const data = snapshot.data();
+  second.querySelector(".venue-head h2").textContent = data.title || "第2体育館";
+  second.querySelector(".venue-head p").textContent = data.description || "";
+  const exhibits = second.querySelector(".exhibits");
+  exhibits.replaceChildren();
+  const items = Array.isArray(data.items) ? data.items.slice(0, 20) : [];
+  if (!items.length) addText(exhibits, "p", "pending", "団体紹介を準備中です。");
+  for (const item of items) {
+    const article = addText(exhibits, "article", "exhibit", "");
+    addText(article, "h3", "", item.name || "団体名未設定");
+    if (typeof item.photo === "string" && item.photo.startsWith("data:image/jpeg;base64,")) {
+      const image = document.createElement("img");
+      image.className = "exhibit-photo";
+      image.src = item.photo;
+      image.alt = `${item.name || "団体"}の写真`;
+      article.append(image);
+    }
+    addText(article, "p", "", item.description || "説明文を準備中です。");
+  }
+}, error => console.warn("第2体育館の内容を読み込めませんでした", error));
