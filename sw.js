@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ukousai2026-v30-second-gym-fit';
+const CACHE_NAME = 'ukousai2026-v31-popup-announcement';
 const ASSETS = [
   './',
   './index.html',
@@ -13,6 +13,7 @@ const ASSETS = [
   './crowd-view.js',
   './announcement.css',
   './announcement.js',
+  './popup-announcement.js',
   './survey.js',
   './aisatsu.html',
   './greeting.js',
@@ -53,7 +54,7 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== self.location.origin) return;
-  if (['/admin.html', '/admin.js', '/admin-access.js', '/editor.html', '/crowd-admin.html', '/crowd-admin.js', '/announcement-admin.html', '/announcement-admin.js', '/survey-admin.html', '/survey-admin.js', '/greeting-admin.html', '/greeting-admin.js', '/gym-admin.html', '/gym-admin.js'].some(path => url.pathname.endsWith(path))) return;
+  if (['/admin.html', '/admin.js', '/admin-access.js', '/editor.html', '/crowd-admin.html', '/crowd-admin.js', '/announcement-admin.html', '/announcement-admin.js', '/popup-announcement-admin.html', '/popup-announcement-admin.js', '/survey-admin.html', '/survey-admin.js', '/greeting-admin.html', '/greeting-admin.js', '/gym-admin.html', '/gym-admin.js'].some(path => url.pathname.endsWith(path))) return;
   const isLiveAsset = e.request.mode === 'navigate' || /\.(html|json|js|css)$/.test(url.pathname);
   if (isLiveAsset) {
     const cacheKey = new Request(url.origin + url.pathname);
