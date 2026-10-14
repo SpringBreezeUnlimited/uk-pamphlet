@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ukousai2026-v28-second-gym-map';
+const CACHE_NAME = 'ukousai2026-v30-second-gym-fit';
 const ASSETS = [
   './',
   './index.html',
