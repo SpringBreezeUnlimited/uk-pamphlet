@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#142e43">
   <meta name="robots" content="noindex,nofollow">
   <title>普通教室棟の混雑状況｜宇工祭2026</title>
-  <link rel="stylesheet" href="monitor.css?v=20261014-utilities-place">
+  <link rel="stylesheet" href="monitor.css?v=20261015-cycle-seconds">
 </head>
 <body>
   <main class="screen">
@@ -43,10 +43,11 @@
         <button id="toggle-auto" class="control auto-control" type="button">自動切替を停止</button>
         <button id="next" class="control arrow" type="button" aria-label="次の階">›</button>
       </div>
+      <label class="interval-setting" for="cycle-seconds">自動切替の間隔 <input id="cycle-seconds" type="number" min="3" max="300" step="1" value="18" inputmode="numeric"> 秒</label>
       <span class="cycle-note">階段は各階の同じ位置にあります</span>
     </footer>
   </main>
   <script src="map-local-data.js"></script>
-  <script src="monitor.js?v=20261014-utilities-place"></script>
+  <script src="monitor.js?v=20261015-cycle-seconds"></script>
 </body>
 </html>
