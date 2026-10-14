@@ -31,9 +31,22 @@
   [hidden]{display:none!important}.survey-request{margin:24px 16px;padding:22px 18px;text-align:center;border:2px solid var(--ink);border-radius:9px;background:#fff;box-shadow:3px 4px 0 var(--line)}.survey-request h2{margin:0 0 8px;font-size:21px}.survey-request p{margin:0 0 18px;font-size:14px;line-height:1.6}.survey-button{display:block;width:100%;max-width:360px;margin:auto;padding:13px 16px;border:2px solid var(--ink);border-radius:6px;background:#443088;color:#fff;text-decoration:none;font-size:16px;font-weight:800;box-shadow:3px 3px 0 var(--ink)}.survey-button:hover{background:#35256d}.survey-button:focus-visible{outline:3px solid #306486;outline-offset:4px}
   html{scroll-behavior:smooth}
   .poster-story{position:relative;background:var(--cream)}
-  .poster-stage{position:sticky;top:0;height:auto;overflow:hidden;background:var(--cream)}
-  .poster-stage::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,25,40,.12),rgba(10,25,40,.08) 55%,rgba(10,25,40,.58));pointer-events:none}
-  .story-poster{display:block;width:100%;height:auto;transform:scale(var(--poster-scale,1));transform-origin:center center;will-change:transform}
+  .poster-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#193548}
+  .poster-stage::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,25,40,.5),rgba(10,25,40,.06) 46%,rgba(10,25,40,.62));pointer-events:none}
+  .story-poster{display:block;width:100%;height:100%;object-fit:cover;object-position:center center}
+  .poster-travel{height:120vh;height:120svh;pointer-events:none}
+  .poster-intro{position:absolute;z-index:2;top:13%;left:50%;width:calc(100% - 24px);padding:16px 8px;transform:translateX(-50%);color:#fff;text-align:center;text-shadow:0 3px 15px #0a1928,0 1px 3px #0a1928;pointer-events:none;animation:intro-drop .95s cubic-bezier(.2,.85,.25,1.15) both}
+  .poster-intro::after{content:"";display:block;width:min(72%,320px);height:3px;margin:15px auto 0;border-radius:3px;background:linear-gradient(90deg,transparent,#f7d884,#fff,#f7d884,transparent);transform-origin:center;animation:intro-line .7s 2.4s ease-out both}
+  .poster-intro h2{margin:0;font-size:clamp(30px,8vw,54px);line-height:1.2;letter-spacing:.08em;white-space:nowrap}
+  .poster-intro p{margin:9px 0 0;font-size:clamp(15px,4vw,23px);font-weight:700;letter-spacing:.06em;white-space:nowrap}
+  .poster-intro .letter{display:inline-block;opacity:0;animation:letter-reveal .75s var(--letter-delay) cubic-bezier(.16,1,.3,1) both}
+  .poster-intro.is-leaving .letter{animation:letter-vanish .7s var(--exit-delay) ease-in both}
+  .poster-intro.is-leaving{animation:intro-leave .9s cubic-bezier(.55,0,1,.45) forwards}
+  @keyframes intro-drop{from{opacity:0;transform:translate(-50%,-72px) scale(.94);filter:blur(8px)}to{opacity:1;transform:translate(-50%,0) scale(1);filter:blur(0)}}
+  @keyframes letter-reveal{from{opacity:0;transform:translateY(-26px) scale(1.12);filter:blur(8px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+  @keyframes letter-vanish{from{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}to{opacity:0;transform:translateY(-30px) scale(.7);filter:blur(8px)}}
+  @keyframes intro-line{from{opacity:0;transform:scaleX(0)}to{opacity:1;transform:scaleX(1)}}
+  @keyframes intro-leave{from{opacity:1;transform:translate(-50%,0) scale(1);filter:blur(0)}to{opacity:0;transform:translate(-50%,-90px) scale(.6);filter:blur(12px)}}
   .scroll-guide{position:fixed;z-index:20;bottom:calc(20px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:space-between;gap:12px;width:calc(100% - 24px);max-width:450px;min-height:78px;padding:12px 13px 12px 23px;border:3px solid rgba(255,255,255,.85);border-radius:999px;background:rgba(24,52,77,.94);color:#fff;text-decoration:none;font-size:clamp(17px,4.5vw,20px);font-weight:900;box-shadow:0 6px 0 #102639,0 12px 26px #0008;transition:opacity .25s ease,visibility .25s ease,transform .25s ease}.scroll-guide span{display:grid;place-items:center;flex:none;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;font-size:29px;line-height:1;animation:guide-bounce 1.4s ease-in-out infinite}.scroll-guide:hover{background:#24465f}.scroll-guide.is-hidden{opacity:0;visibility:hidden;pointer-events:none;transform:translate(-50%,14px)}.scroll-guide:focus-visible{outline:3px solid #fff;outline-offset:4px}@keyframes guide-bounce{50%{transform:translateY(4px)}}
   .story-menu{position:relative;z-index:3;margin-top:0;padding:28px 16px 30px;border-radius:24px 24px 0 0;background:var(--cream);box-shadow:0 -16px 40px #0a192855}
   .story-menu::before{content:"";display:block;width:42px;height:5px;margin:-12px auto 22px;border-radius:10px;background:#b7a7c8}
@@ -41,7 +54,7 @@
   .story-menu .menu-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.story-menu .saiji-link{width:100%;min-height:86px;margin:0;padding:13px 10px;font-size:clamp(14px,3.7vw,17px);line-height:1.35;text-align:center;box-shadow:3px 3px 0 var(--ink)}.story-menu .saiji-link .arrow{font-size:18px}.story-menu .saiji-link:focus-visible{outline:3px solid #306486;outline-offset:4px}
   .reveal-ready .story-menu .saiji-link{opacity:0;transform:translateY(28px);transition:opacity .5s ease,transform .5s ease}.reveal-ready .story-menu.is-visible .saiji-link{opacity:1;transform:translateY(0)}.reveal-ready .story-menu.is-visible .saiji-link:nth-child(2){transition-delay:.08s}.reveal-ready .story-menu.is-visible .saiji-link:nth-child(3){transition-delay:.16s}.reveal-ready .story-menu.is-visible .saiji-link:nth-child(4){transition-delay:.24s}
   @media(max-width:360px){.story-menu .menu-links{gap:9px}.story-menu .saiji-link{min-height:78px;padding:10px 7px;font-size:13px}}
-  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.story-poster{transform:none!important}.scroll-guide,.scroll-guide span{animation:none;transition:none}.reveal-ready .story-menu .saiji-link{opacity:1;transform:none;transition:none}}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.poster-travel{height:0}.poster-intro,.poster-intro::after,.poster-intro .letter,.poster-intro.is-leaving .letter,.scroll-guide,.scroll-guide span{animation:none;transition:none;opacity:1}.reveal-ready .story-menu .saiji-link{opacity:1;transform:none;transition:none}}
   .admin-entry{display:block;width:max-content;max-width:calc(100% - 32px);margin:40px auto 24px;color:var(--muted);font-size:12px;text-decoration:underline;text-underline-offset:3px}.admin-entry:hover{color:var(--ink)}.admin-entry:focus-visible{outline:3px solid #306486;outline-offset:3px}
   .intro{padding:11px 18px 8px;font-size:12px;text-align:center;color:var(--muted)}
   .building{margin:0 15px 16px;border:3px solid var(--ink);border-radius:6px;background:rgba(255,255,255,.85);box-shadow:3px 4px 0 rgba(24,52,77,.13)}
@@ -70,9 +83,14 @@
 
   <section class="poster-story" aria-label="宇工祭ポスターとメニュー">
     <div class="poster-stage" id="posterStage">
-      <img class="story-poster" id="storyPoster" src="poster.jpg" alt="宇工祭ポスター">
+      <img class="story-poster" src="poster.jpg" alt="宇工祭ポスター">
+      <div class="poster-intro">
+        <h2>宇工祭２０２６</h2>
+        <p>〜唯一無二の瞬間を〜</p>
+      </div>
     </div>
     <a class="scroll-guide" href="#previewMenu">スクロールしてメニューを見る <span aria-hidden="true">↓</span></a>
+    <div class="poster-travel" aria-hidden="true"></div>
     <nav class="story-menu" id="previewMenu" aria-label="パンフレットのメニュー">
       <h2>宇工祭デジタルパンフレット2026</h2>
       <p class="menu-lead">見たい項目を選んでください</p>
@@ -104,9 +122,27 @@
 (() => {
   const story = document.querySelector('.poster-story');
   const menu = document.getElementById('previewMenu');
-  const poster = document.getElementById('storyPoster');
+  const intro = document.querySelector('.poster-intro');
   const guide = document.querySelector('.scroll-guide');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  let autoScrolling = false;
+  function revealLetters(element, firstDelay) {
+    const phrase = element.textContent;
+    const characters = Array.from(phrase);
+    element.setAttribute('aria-label', phrase);
+    element.textContent = '';
+    characters.forEach((character, index) => {
+      const letter = document.createElement('span');
+      letter.className = 'letter';
+      letter.textContent = character;
+      letter.setAttribute('aria-hidden', 'true');
+      letter.style.setProperty('--letter-delay', `${firstDelay + index * 80}ms`);
+      letter.style.setProperty('--exit-delay', `${(characters.length - index - 1) * 28}ms`);
+      element.append(letter);
+    });
+  }
+  revealLetters(intro.querySelector('h2'), 250);
+  revealLetters(intro.querySelector('p'), 1150);
   if ('IntersectionObserver' in window) {
     document.documentElement.classList.add('reveal-ready');
     const observer = new IntersectionObserver(entries => {
@@ -115,21 +151,84 @@
     observer.observe(menu);
   }
   let scheduled = false;
-  function updatePoster() {
+  function updateScene() {
     scheduled = false;
     const bounds = story.getBoundingClientRect();
-    guide.classList.toggle('is-hidden', menu.getBoundingClientRect().top < innerHeight * .82 || bounds.bottom <= 0);
-    if (reducedMotion.matches) { poster.style.removeProperty('--poster-scale'); return; }
-    const progress = Math.max(0, Math.min(1, -bounds.top / Math.max(1, innerHeight * .8)));
-    poster.style.setProperty('--poster-scale', (1 + progress * .055).toFixed(3));
+    const progress = Math.max(0, Math.min(1, -bounds.top / Math.max(1, menu.offsetTop)));
+    guide.classList.toggle('is-hidden', progress > .03 || bounds.bottom <= 0);
+    if (reducedMotion.matches) return;
+    if (progress > .09) intro.classList.add('is-leaving');
+    else if (progress < .03 && !autoScrolling) intro.classList.remove('is-leaving');
   }
   function scheduleUpdate() {
-    if (!scheduled) { scheduled = true; requestAnimationFrame(updatePoster); }
+    if (!scheduled) { scheduled = true; requestAnimationFrame(updateScene); }
   }
   addEventListener('scroll', scheduleUpdate, {passive:true});
   addEventListener('resize', scheduleUpdate);
   reducedMotion.addEventListener('change', scheduleUpdate);
   scheduleUpdate();
+
+  // 操作がない場合は、文字が消えるのと同時にメニューへ進む。
+  let autoScrollTimer = null;
+  let autoScrollFrame = null;
+  let previousScrollBehavior = null;
+  function stopAutoScroll() {
+    clearTimeout(autoScrollTimer);
+    autoScrollTimer = null;
+    if (autoScrollFrame !== null) cancelAnimationFrame(autoScrollFrame);
+    autoScrollFrame = null;
+    autoScrolling = false;
+    if (previousScrollBehavior !== null) {
+      document.documentElement.style.scrollBehavior = previousScrollBehavior;
+      previousScrollBehavior = null;
+    }
+    removeEventListener('wheel', stopAutoScroll);
+    removeEventListener('touchstart', stopAutoScroll);
+    removeEventListener('pointerdown', stopAutoScroll);
+    removeEventListener('keydown', stopAutoScroll);
+    removeEventListener('scroll', stopOnManualScroll);
+    reducedMotion.removeEventListener('change', stopAutoScroll);
+    document.removeEventListener('visibilitychange', stopIfHidden);
+  }
+  function stopOnManualScroll() {
+    if (!autoScrolling && scrollY > 24) stopAutoScroll();
+  }
+  function stopIfHidden() {
+    if (document.visibilityState !== 'visible') stopAutoScroll();
+  }
+  function scrollThroughPoster() {
+    autoScrolling = true;
+    intro.classList.add('is-leaving');
+    previousScrollBehavior = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = 'auto';
+    const start = scrollY;
+    const target = menu.getBoundingClientRect().top + scrollY;
+    const duration = 1800;
+    let startedAt = null;
+    function step(now) {
+      if (startedAt === null) startedAt = now;
+      const t = Math.min(1, (now - startedAt) / duration);
+      const eased = (1 - Math.cos(Math.PI * t)) / 2;
+      scrollTo(0, start + (target - start) * eased);
+      if (t < 1) autoScrollFrame = requestAnimationFrame(step);
+      else stopAutoScroll();
+    }
+    autoScrollFrame = requestAnimationFrame(step);
+  }
+  if (scrollY < 24 && !location.hash && !reducedMotion.matches) {
+    autoScrollTimer = setTimeout(() => {
+      if (document.visibilityState !== 'visible' || scrollY > 24) { stopAutoScroll(); return; }
+      autoScrollTimer = null;
+      scrollThroughPoster();
+    }, 4300);
+    addEventListener('wheel', stopAutoScroll, {passive:true});
+    addEventListener('touchstart', stopAutoScroll, {passive:true});
+    addEventListener('pointerdown', stopAutoScroll, {passive:true});
+    addEventListener('keydown', stopAutoScroll);
+    addEventListener('scroll', stopOnManualScroll, {passive:true});
+    reducedMotion.addEventListener('change', stopAutoScroll);
+    document.addEventListener('visibilitychange', stopIfHidden);
+  }
 })();
 if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 </script>
