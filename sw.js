@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ukousai2026-v31-popup-announcement';
+const CACHE_NAME = 'ukousai2026-v32-monitor-cycle-seconds';
 const ASSETS = [
   './',
   './index.html',
