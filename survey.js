@@ -28,9 +28,10 @@ function markSeen() {
 function closePopup() {
   if (popup.hidden) return;
   popup.hidden = true;
-  document.body.classList.remove("survey-popup-open");
+  document.body.classList.remove("site-popup-open");
   if (returnFocus?.isConnected) returnFocus.focus({preventScroll: true});
   returnFocus = null;
+  document.dispatchEvent(new Event("site-popup-closed"));
 }
 
 function menuIsVisible() {
@@ -40,14 +41,15 @@ function menuIsVisible() {
 
 function canShowPopup() {
   return popupEnabled && surveyUrl && popupShownForUrl !== surveyUrl &&
-    !seenInThisSession() && popup.hidden && document.visibilityState === "visible";
+    !seenInThisSession() && popup.hidden && document.visibilityState === "visible" &&
+    !document.querySelector(".site-popup:not([hidden])");
 }
 
 function schedulePopup() {
   clearTimeout(popupTimer);
   popupTimer = null;
   if (!canShowPopup() || !menuIsVisible()) return;
-  // 自動スクロールや手動操作が止まってから表示する。
+  // 手動スクロールが止まってから表示する。
   popupTimer = setTimeout(() => {
     popupTimer = null;
     if (!canShowPopup() || !menuIsVisible()) return;
@@ -55,7 +57,7 @@ function schedulePopup() {
     markSeen();
     returnFocus = document.activeElement;
     popup.hidden = false;
-    document.body.classList.add("survey-popup-open");
+    document.body.classList.add("site-popup-open");
     popupClose.focus({preventScroll: true});
   }, 800);
 }
@@ -80,6 +82,7 @@ document.addEventListener("keydown", event => {
 addEventListener("scroll", schedulePopup, {passive: true});
 addEventListener("resize", schedulePopup);
 document.addEventListener("visibilitychange", schedulePopup);
+document.addEventListener("site-popup-closed", schedulePopup);
 
 onSnapshot(doc(db, "siteContent", "survey"), snapshot => {
   const data = snapshot.exists() ? snapshot.data() : {};
