@@ -29,6 +29,12 @@
   .saiji-link{display:flex;align-items:center;justify-content:center;gap:10px;width:calc(100% - 32px);margin:18px auto calc(24px + env(safe-area-inset-bottom));padding:15px 18px;border:3px solid var(--ink);border-radius:7px;background:#443088;box-shadow:4px 4px 0 var(--ink);color:#fff;text-decoration:none;font-size:17px;font-weight:800;letter-spacing:.06em}.saiji-link:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}.saiji-link .arrow{font-size:22px;line-height:0}
   .line-entry{text-align:center;margin:24px 16px 28px}.line-entry p{margin:0 0 10px;font-size:16px;font-weight:800}.line-entry img{max-width:100%;height:36px}.line-entry a:focus-visible{outline:3px solid #306486;outline-offset:4px}
   [hidden]{display:none!important}.survey-request{margin:24px 16px;padding:22px 18px;text-align:center;border:2px solid var(--ink);border-radius:9px;background:#fff;box-shadow:3px 4px 0 var(--line)}.survey-request h2{margin:0 0 8px;font-size:21px}.survey-request p{margin:0 0 18px;font-size:14px;line-height:1.6}.survey-button{display:block;width:100%;max-width:360px;margin:auto;padding:13px 16px;border:2px solid var(--ink);border-radius:6px;background:#443088;color:#fff;text-decoration:none;font-size:16px;font-weight:800;box-shadow:3px 3px 0 var(--ink)}.survey-button:hover{background:#35256d}.survey-button:focus-visible{outline:3px solid #306486;outline-offset:4px}
+  body.survey-popup-open{overflow:hidden}
+  .survey-popup{position:fixed;z-index:50;inset:0;display:grid;place-items:center;padding:20px;background:rgba(10,25,40,.68)}
+  .survey-popup-card{position:relative;width:min(100%,440px);padding:34px 24px 27px;border:3px solid var(--ink);border-radius:16px;background:var(--cream);box-shadow:0 20px 60px #0008;text-align:center}
+  .survey-popup-card h2{margin:0 0 12px;font-size:clamp(23px,6vw,29px)}.survey-popup-card p{margin:0 0 23px;font-size:15px;line-height:1.7}
+  .survey-popup-close{position:absolute;top:10px;right:10px;display:grid;place-items:center;width:36px;height:36px;border:0;border-radius:50%;background:#e9dfcf;color:var(--ink);font-size:25px;line-height:1;cursor:pointer}
+  .survey-popup .survey-button{margin-bottom:0}.survey-popup-close:focus-visible,.survey-popup .survey-button:focus-visible{outline:3px solid #306486;outline-offset:3px}
   html{scroll-behavior:smooth}
   .poster-story{position:relative;background:var(--cream)}
   .poster-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#193548}
@@ -107,6 +113,14 @@
     <p>宇工祭について、皆さまのご意見をお聞かせください。</p>
     <a class="survey-button" id="surveyButton" href="#" target="_blank" rel="noopener noreferrer">アンケートに回答する</a>
   </section>
+  <div class="survey-popup" id="surveyPopup" role="dialog" aria-modal="true" aria-labelledby="surveyPopupTitle" aria-describedby="surveyPopupDescription" hidden>
+    <div class="survey-popup-card">
+      <button class="survey-popup-close" id="surveyPopupClose" type="button" aria-label="閉じる">×</button>
+      <h2 id="surveyPopupTitle">アンケートのお願い</h2>
+      <p id="surveyPopupDescription">宇工祭について、皆さまのご意見をお聞かせください。</p>
+      <a class="survey-button" id="surveyPopupButton" href="#" target="_blank" rel="noopener noreferrer">アンケートに回答する</a>
+    </div>
+  </div>
   <div class="line-entry"><p>宇工祭予約システムがLINEで稼働中！</p><a href="https://lin.ee/yJt1y0C"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" height="36" border="0"></a></div>
   <hr>
   <h2>●お願い●</h2>
