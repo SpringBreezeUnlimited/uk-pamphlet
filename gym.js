@@ -40,7 +40,7 @@ onSnapshot(doc(db, "gymContent", "second"), snapshot => {
   second.querySelector(".venue-head p").textContent = data.description || "";
   const exhibits = second.querySelector(".exhibits");
   exhibits.replaceChildren();
-  const items = Array.isArray(data.items) ? data.items : [];
+  const items = Array.isArray(data.items) ? data.items.slice(0, 20) : [];
   if (!items.length) addText(exhibits, "p", "pending", "団体紹介を準備中です。");
   for (const item of items) {
     const article = addText(exhibits, "article", "exhibit", "");
