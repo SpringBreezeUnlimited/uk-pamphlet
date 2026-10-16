@@ -41,7 +41,7 @@
   .poster-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#193548}
   .poster-stage::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,25,40,.5),rgba(10,25,40,.06) 46%,rgba(10,25,40,.62));pointer-events:none}
   .story-poster{display:block;width:100%;height:100%;object-fit:cover;object-position:center center}
-  .poster-travel{height:120vh;height:120svh;pointer-events:none}
+  .poster-travel{height:70vh;height:70svh;pointer-events:none}
   .poster-intro{position:absolute;z-index:2;top:13%;left:50%;width:calc(100% - 24px);padding:16px 8px;transform:translateX(-50%);color:#fff;text-align:center;text-shadow:0 3px 15px #0a1928,0 1px 3px #0a1928;pointer-events:none;animation:intro-drop .95s cubic-bezier(.2,.85,.25,1.15) both}
   .poster-intro::after{content:"";display:block;width:min(72%,320px);height:3px;margin:15px auto 0;border-radius:3px;background:linear-gradient(90deg,transparent,#f7d884,#fff,#f7d884,transparent);transform-origin:center;animation:intro-line .7s 2.4s ease-out both}
   .poster-intro h2{margin:0;font-size:clamp(30px,8vw,54px);line-height:1.2;letter-spacing:.08em;white-space:nowrap}
@@ -51,7 +51,7 @@
   @keyframes intro-drop{from{opacity:0;transform:translate(-50%,-72px) scale(.94);filter:blur(8px)}to{opacity:1;transform:translate(-50%,0) scale(1);filter:blur(0)}}
   @keyframes letter-reveal{from{opacity:0;transform:translateY(-26px) scale(1.12);filter:blur(8px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
   @keyframes intro-line{from{opacity:0;transform:scaleX(0)}to{opacity:1;transform:scaleX(1)}}
-  @keyframes intro-leave{from{opacity:1;transform:translate(-50%,0) scale(1);filter:blur(0)}to{opacity:0;transform:translate(-50%,-90px) scale(.6);filter:blur(12px)}}
+  @keyframes intro-leave{from{opacity:1;transform:translate(-50%,0) scale(1)}to{opacity:0;transform:translate(-50%,-64px) scale(.92)}}
   .scroll-guide{position:fixed;z-index:20;bottom:calc(20px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:space-between;gap:12px;width:calc(100% - 24px);max-width:450px;min-height:78px;padding:12px 13px 12px 23px;border:3px solid rgba(255,255,255,.85);border-radius:999px;background:rgba(24,52,77,.94);color:#fff;text-decoration:none;font-size:clamp(17px,4.5vw,20px);font-weight:900;box-shadow:0 6px 0 #102639,0 12px 26px #0008;transition:opacity .25s ease,visibility .25s ease,transform .25s ease}.scroll-guide span{display:grid;place-items:center;flex:none;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;font-size:29px;line-height:1;animation:guide-bounce 1.4s ease-in-out infinite}.scroll-guide:hover{background:#24465f}.scroll-guide.is-hidden{opacity:0;visibility:hidden;pointer-events:none;transform:translate(-50%,14px)}.scroll-guide:focus-visible{outline:3px solid #fff;outline-offset:4px}@keyframes guide-bounce{50%{transform:translateY(4px)}}
   .story-menu{position:relative;z-index:3;margin-top:0;padding:28px 16px 30px;border-radius:24px 24px 0 0;background:var(--cream);box-shadow:0 -16px 40px #0a192855}
   .story-menu::before{content:"";display:block;width:42px;height:5px;margin:-12px auto 22px;border-radius:10px;background:#b7a7c8}
@@ -169,20 +169,34 @@
     observer.observe(menu);
   }
   let scheduled = false;
+  let guideHideAt = 0;
+  let storyBottom = 0;
+  function measureScene() {
+    const storyTop = story.getBoundingClientRect().top + window.scrollY;
+    guideHideAt = storyTop + Math.max(1, menu.offsetTop) * .03;
+    storyBottom = storyTop + story.offsetHeight;
+    scheduleUpdate();
+  }
   function updateScene() {
     scheduled = false;
-    const bounds = story.getBoundingClientRect();
-    const progress = Math.max(0, Math.min(1, -bounds.top / Math.max(1, menu.offsetTop)));
-    guide.classList.toggle('is-hidden', progress > .03 || bounds.bottom <= 0);
-    if (scrollY > 32) intro.classList.add('is-leaving');
-    else if (scrollY < 12) intro.classList.remove('is-leaving');
+    const position = window.scrollY;
+    guide.classList.toggle('is-hidden', position > guideHideAt || position >= storyBottom);
+    if (position > 32) intro.classList.add('is-leaving');
+    else if (position < 12) intro.classList.remove('is-leaving');
   }
   function scheduleUpdate() {
     if (!scheduled) { scheduled = true; requestAnimationFrame(updateScene); }
   }
   addEventListener('scroll', scheduleUpdate, {passive:true});
-  addEventListener('resize', scheduleUpdate);
-  scheduleUpdate();
+  addEventListener('resize', measureScene, {passive:true});
+  addEventListener('load', measureScene, {once:true});
+  if ('ResizeObserver' in window) {
+    const resizeObserver = new ResizeObserver(measureScene);
+    resizeObserver.observe(story);
+    resizeObserver.observe(document.querySelector('.banner'));
+    resizeObserver.observe(document.querySelector('.announcement-bar'));
+  }
+  measureScene();
 })();
 if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 </script>
