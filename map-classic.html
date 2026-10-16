@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta name="robots" content="noindex">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#18344d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="宇工祭2026">
+  <title>校内マップ・元のUI案｜宇工祭2026</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="announcement.css">
+  <link rel="icon" href="lion-favicon.ico" type="image/x-icon">
+  <style>
+    :root{--ink:#18344d;--orange:#e8793b;--cream:#fffdf8;--paper:#f4ecd9;--muted:#617384}
+    *{box-sizing:border-box}
+    [hidden]{display:none!important}
+    html,body{margin:0;min-height:100%;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif}
+    #app{width:min(100%,680px);min-height:100dvh;margin:auto;background:var(--cream);border-inline:1px solid #d7c7aa}
+    .banner{position:relative;text-align:center;padding:calc(18px + env(safe-area-inset-top)) 56px 15px;border-bottom:3px solid var(--ink)}
+    .mascot{position:absolute;left:16px;bottom:10px;height:48px;width:auto;object-fit:contain}
+    .school{font-size:11px;letter-spacing:.12em;font-weight:700;color:#306486}
+    h1{margin:3px 0 0;font-size:27px;line-height:1.1;letter-spacing:.06em}h1 span{color:var(--orange);font-size:.86em;margin-left:3px}
+    .theme{font-size:12px;margin-top:4px;font-weight:600;color:var(--muted)}
+    .page-title{margin:16px 16px 4px;font-size:22px}
+    .intro,.status{margin:0 16px 10px;font-size:13px;line-height:1.6;color:var(--muted)}
+    .status.error{color:#a33e35;font-weight:700}
+    .jump-nav{display:flex;gap:7px;overflow-x:auto;margin:0 16px 10px;padding:2px 0 8px}
+    .jump-nav button{flex:none;min-height:40px;padding:6px 10px;border:2px solid var(--ink);border-radius:999px;background:#fff;color:var(--ink);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer}
+    .jump-nav button:focus-visible{outline:3px solid #306486;outline-offset:2px}
+    .map-tools{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin:0 16px 10px}
+    .map-tools button{min-width:44px;min-height:44px;padding:6px 10px;border:2px solid var(--ink);border-radius:7px;background:#fff;color:var(--ink);font-family:inherit;font-size:16px;font-weight:800;cursor:pointer}
+    .map-tools button:disabled{opacity:.4;cursor:default}
+    .map-tools button:focus-visible{outline:3px solid #306486;outline-offset:2px}
+    .map-tools output{min-width:48px;font-size:13px;font-weight:800;text-align:center}
+    .map-viewport{height:min(67dvh,620px);min-height:340px;overflow:auto;overscroll-behavior:contain;border-block:2px solid var(--ink);background:#fff;touch-action:pan-x pan-y}
+    .map-wrap{position:relative;width:max(100%,1400px);line-height:0}
+    .map-image{display:block;width:100%;height:auto}
+    .map-pin{position:absolute;z-index:1;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;width:clamp(66px,14%,104px);min-height:44px;padding:5px 4px;border:2px solid var(--ink);border-radius:8px;background:#443088;color:#fff;box-shadow:2px 3px 0 var(--ink);font-family:inherit;font-size:clamp(10px,1.8vw,13px);font-weight:800;line-height:1.2;text-align:center;cursor:pointer}
+    .map-pin:active{transform:translate(-50%,-50%) scale(.96)}
+    .map-pin.number{width:42px;min-height:42px;padding:0;border-radius:50%;background:#fffdf8;color:#443088;font-size:14px;box-shadow:1px 2px 0 var(--ink)}
+    .map-pin.number.active,.map-pin.venue.active{background:var(--orange);color:#fff}
+    .map-pin:focus-visible,.sheet-close:focus-visible,a:focus-visible{outline:3px solid #306486;outline-offset:3px}
+    .cover-link{display:flex;align-items:center;justify-content:center;min-height:48px;margin:18px 16px calc(24px + env(safe-area-inset-bottom));padding:10px 16px;border:3px solid var(--ink);border-radius:7px;background:var(--cream);box-shadow:4px 4px 0 var(--ink);color:var(--ink);font-weight:800;text-decoration:none}
+    .sheet{position:fixed;z-index:10;left:50%;bottom:0;transform:translateX(-50%);width:min(100%,680px);max-height:65dvh;overflow:auto;padding:14px 16px calc(18px + env(safe-area-inset-bottom));border:3px solid var(--ink);border-bottom:0;border-radius:16px 16px 0 0;background:var(--cream);box-shadow:0 -6px 24px #18344d44}
+    .sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}.sheet-head h2{margin:0;font-size:20px}
+    .sheet-close{flex:none;min-width:44px;min-height:44px;border:2px solid var(--ink);border-radius:50%;background:#fff;color:var(--ink);font-size:22px;cursor:pointer}
+    .event{padding:12px 0;border-top:1px solid #d7c7aa}.event h3{margin:0 0 6px;font-size:17px}.event p{margin:4px 0;font-size:13px;line-height:1.5}.event .meta{color:var(--muted);font-weight:700}
+    .more-link{display:inline-block;margin-top:9px;color:#443088;font-weight:800}
+  </style>
+  <link rel="stylesheet" href="map-classic.css">
+</head>
+<body>
+<main id="app">
+  <header class="banner">
+    <img class="mascot" src="uk-lion.png" alt="UKライオン">
+    <div class="school">宇都宮工業高等学校</div><h1>宇工祭<span>2026</span></h1><div class="theme">〜 唯一無二の瞬間を 〜</div>
+  </header>
+  <aside class="announcement-bar" aria-label="お知らせ" hidden><span class="announcement-label">お知らせ</span><div class="announcement-window"><span class="announcement-text"></span></div></aside>
+  <h2 class="page-title">校内マップ</h2>
+  <p class="intro">地図を動かして教室番号や体育館名をタップすると、今年の催事情報を確認できます。二本指でも拡大・縮小できます。</p>
+  <p id="mapStatus" class="status" role="status">催事情報を読み込んでいます…</p>
+  <nav class="jump-nav" aria-label="地図のエリアへ移動">
+    <button type="button" data-jump="20">3階</button>
+    <button type="button" data-jump="12">2階</button>
+    <button type="button" data-jump="4">1階</button>
+    <button type="button" data-jump="29">管理棟</button>
+    <button type="button" data-jump="30">中庭</button>
+    <button type="button" data-jump="gymB">第2体育館</button>
+    <button type="button" data-jump="gymA">第1体育館</button>
+  </nav>
+  <div class="map-tools" aria-label="地図の拡大・縮小">
+    <button id="zoomOut" type="button" aria-label="地図を縮小">−</button>
+    <output id="zoomLevel" aria-live="off">100%</output>
+    <button id="zoomIn" type="button" aria-label="地図を拡大">＋</button>
+    <button id="zoomFit" type="button">全体表示</button>
+  </div>
+  <div class="map-viewport" id="mapViewport" aria-label="スクロールと拡大・縮小ができる校内マップ">
+    <div class="map-wrap" id="mapWrap">
+      <img class="map-image" src="map.png" alt="校内マップ。上半分に校舎と体育館、下半分に中庭を示しています。教室番号などをタップして催事を確認できます。">
+    </div>
+  </div>
+  <a class="cover-link" href="index.html">← 表紙に戻る</a>
+  <a class="compare-link" href="map.html">階別のマップ案と比較する</a>
+</main>
+<section id="detailSheet" class="sheet" role="region" aria-labelledby="sheetTitle" hidden>
+  <div class="sheet-head"><h2 id="sheetTitle"></h2><button id="sheetClose" class="sheet-close" type="button" aria-label="詳細を閉じる">×</button></div>
+  <div id="sheetEvents"></div>
+</section>
+<script type="module" src="announcement.js"></script>
+<script src="map-local-data.js"></script>
+<script src="map-classic.js"></script>
+</body>
+</html>

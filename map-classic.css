@@ -1,0 +1,12 @@
+/* Local alternative: retain the original poster-like header, map and bottom sheet. */
+.compare-link{display:block;width:max-content;max-width:calc(100% - 32px);margin:0 auto 24px;padding:10px;color:var(--muted);font-size:12px;text-underline-offset:3px}
+.jump-nav{display:flex;flex-wrap:wrap;overflow:visible;gap:8px}
+.jump-nav button{min-height:44px;font-size:13px}
+.map-wrap{--pin-scale:1}
+.map-pin.number{width:calc(36px * var(--pin-scale));min-height:calc(36px * var(--pin-scale));font-size:calc(14px * var(--pin-scale));border-width:calc(2px * var(--pin-scale));box-shadow:calc(1px * var(--pin-scale)) calc(2px * var(--pin-scale)) 0 var(--ink)}
+.map-pin.venue{width:calc(104px * var(--pin-scale));min-height:calc(44px * var(--pin-scale));font-size:calc(13px * var(--pin-scale));border-width:calc(2px * var(--pin-scale));box-shadow:calc(2px * var(--pin-scale)) calc(3px * var(--pin-scale)) 0 var(--ink)}
+.map-tools{justify-content:flex-end;background:var(--cream);flex-wrap:wrap}
+.map-viewport{height:62dvh;min-height:320px;max-height:640px}
+.map-image{pointer-events:none;user-select:none}
+.sheet{z-index:5}.sheet-head{position:sticky;top:-14px;background:var(--cream);padding-block:8px}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
