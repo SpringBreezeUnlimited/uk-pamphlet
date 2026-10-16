@@ -1,12 +1,21 @@
-/* Local alternative: retain the original poster-like header, map and bottom sheet. */
+@import url('./map.css');
+
+/* Original pamphlet styling around the shared, updated map. */
+:root{--ink:#18344d;--orange:#e8793b;--cream:#fffdf8;--paper:#f4ecd9;--muted:#617384}
+html,body{background:var(--paper);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif}
+#app{width:min(100%,680px);max-width:680px;min-height:100dvh;margin:auto;background:var(--cream);border-inline:1px solid #d7c7aa}
+.banner{display:block;position:relative;text-align:center;padding:calc(18px + env(safe-area-inset-top)) 56px 15px;border-bottom:3px solid var(--ink)}
+.mascot{position:absolute;left:16px;bottom:10px;height:48px;width:auto;object-fit:contain}
+.school{font-size:11px;letter-spacing:.12em;font-weight:700;color:#306486}
+.banner h1{margin:3px 0 0;font-size:27px;line-height:1.1;letter-spacing:.06em}.banner h1 span{color:var(--orange);font-size:.86em;margin-left:3px}
+.theme{font-size:12px;margin-top:4px;font-weight:600;color:var(--muted)}
+.page-heading{display:block;padding:16px 16px 14px}.page-heading h1{font-size:22px;margin:0 0 4px}.page-heading p{font-size:13px;line-height:1.6}.original-link{display:inline-block;margin-top:12px;border:2px solid var(--ink);border-radius:999px;background:#fff;color:var(--ink);padding:8px 12px;font-weight:700}
+.area-nav{display:flex;flex-wrap:wrap;padding:0 16px;gap:8px}.area-nav button{flex:none;min-height:44px;padding:7px 12px;border:2px solid var(--ink);border-radius:999px;background:#fff;color:var(--ink);font-size:13px;font-weight:700}.area-nav button[aria-pressed=true]{background:var(--ink);color:#fff}
+.map-meta{margin:12px 16px 8px}.legend{padding:0 16px 16px;gap:8px 12px}.map-meta button{color:#443088}
+.campus-overview{margin:0 16px 18px;border:2px solid var(--ink);border-radius:7px;background:var(--cream)}.campus-overview summary{background:var(--cream);font-size:16px;padding:12px}.campus-overview summary span{font-size:11px}.campus-content{padding:8px 10px 12px}.campus-content img{border-radius:5px}.campus-links a{color:#443088}
+.map-stage{background:var(--cream);border-block:2px solid var(--ink);padding:12px 10px 18px}.floor-panel:nth-child(n){padding-inline:0}.floor-head{padding:12px 6px 0}.floor-head h2{font-size:23px}.floor-body{fill:var(--cream)}.floor-edge{fill:#e5ddca}.corridor{fill:#f4ecd9}.map-note{margin-inline:6px}.floor-scroll{scrollbar-color:#9a9a90 var(--cream)}
+.directory{padding:24px 16px}.directory-heading h2{font-size:19px}.place-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.place{border:2px solid var(--ink);border-radius:6px;background:#fffdf8}.place:hover{background:#f5efdf}.place-label{font-size:18px}.place-name{font-size:13px}#placeSearch{border:2px solid var(--ink);border-radius:6px;background:white}.directory .status{margin:8px 0 18px}
+.cover-link{display:flex;align-items:center;justify-content:center;min-height:48px;margin:18px 16px 24px;padding:10px 16px;border:3px solid var(--ink);border-radius:7px;background:var(--cream);box-shadow:4px 4px 0 var(--ink);color:var(--ink);font-weight:800;text-decoration:none}
 .compare-link{display:block;width:max-content;max-width:calc(100% - 32px);margin:0 auto 24px;padding:10px;color:var(--muted);font-size:12px;text-underline-offset:3px}
-.jump-nav{display:flex;flex-wrap:wrap;overflow:visible;gap:8px}
-.jump-nav button{min-height:44px;font-size:13px}
-.map-wrap{--pin-scale:1}
-.map-pin.number{width:calc(36px * var(--pin-scale));min-height:calc(36px * var(--pin-scale));font-size:calc(14px * var(--pin-scale));border-width:calc(2px * var(--pin-scale));box-shadow:calc(1px * var(--pin-scale)) calc(2px * var(--pin-scale)) 0 var(--ink)}
-.map-pin.venue{width:calc(104px * var(--pin-scale));min-height:calc(44px * var(--pin-scale));font-size:calc(13px * var(--pin-scale));border-width:calc(2px * var(--pin-scale));box-shadow:calc(2px * var(--pin-scale)) calc(3px * var(--pin-scale)) 0 var(--ink)}
-.map-tools{justify-content:flex-end;background:var(--cream);flex-wrap:wrap}
-.map-viewport{height:62dvh;min-height:320px;max-height:640px}
-.map-image{pointer-events:none;user-select:none}
-.sheet{z-index:5}.sheet-head{position:sticky;top:-14px;background:var(--cream);padding-block:8px}
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+dialog{position:fixed;inset:auto 0 0;width:min(100%,680px);max-height:65dvh;margin:0 auto;padding:14px 16px calc(18px + env(safe-area-inset-bottom));border:3px solid var(--ink);border-bottom:0;border-radius:16px 16px 0 0;background:var(--cream);box-shadow:0 -6px 24px #18344d44}dialog::backdrop{background:#18344d33}.sheet-head{padding-bottom:8px}.sheet-head h2{font-size:20px}#sheetClose{border:2px solid var(--ink);background:#fff;font-size:22px}.event{border-top:1px solid #d7c7aa;padding:12px 0}.event h3{font-size:17px}.event p{font-size:13px}.more-link{color:#443088}
+@media(max-width:600px){.page-heading{padding:16px}.campus-overview{margin:0 16px 18px}.campus-overview summary span{margin-left:0}.map-meta{margin-inline:16px}.legend{padding-inline:16px}.directory{padding-inline:16px}.place{min-height:145px}.scroll-hint{margin-inline:6px}}
