@@ -179,7 +179,13 @@ function renderDirectory() {
 }
 function updateCrowd() {
   const connected = fresh && navigator.onLine && !failed;
-  connection.textContent = connected ? '係が更新した混雑状況を表示。30分以上経過した情報は「要確認」になります。' : '混雑状況の最新情報を取得できません。会場でもご確認ください。';
+  const visibleKeys = new Set([...maps.querySelectorAll('[data-key]'),...grid.querySelectorAll('[data-key]')].map(node => node.dataset.key));
+  const visiblePlaces = places.filter(place => place.events.length && visibleKeys.has(place.key));
+  const allUnverified = visiblePlaces.length > 0 && visiblePlaces.every(place => stateFor(place).tone === 'unknown');
+  document.getElementById('app').classList.toggle('crowd-summary-only', allUnverified);
+  connection.textContent = !connected ? '混雑状況の最新情報を取得できません。会場でもご確認ください。各催事の詳細で前回の情報を確認できます。'
+    : allUnverified ? '表示中の混雑状況はすべて未更新・要確認です。各催事を開くと、前回の状態と更新日時を確認できます。'
+    : '混雑状況は淡い色で表示しています。30分以上経過した情報は「要確認」。詳しい更新日時は各催事を開いて確認できます。';
   // Update in place so live snapshots never remove the focused room or move the map scroll position.
   for (const node of document.querySelectorAll('[data-key]')) {
     const place = places.find(place => place.key === node.dataset.key);
@@ -202,7 +208,8 @@ document.querySelectorAll('[data-area]').forEach(button => button.addEventListen
   document.querySelectorAll('[data-area]').forEach(node => node.setAttribute('aria-pressed',String(node === button)));
   renderMaps();renderDirectory();updateCrowd();
 }));
-search.addEventListener('input',renderDirectory);
+search.addEventListener('input',() => {renderDirectory();updateCrowd();});
+document.querySelector('.original-link').addEventListener('click', () => { document.getElementById('campusOverview').open = true; });
 window.addEventListener('offline',updateCrowd);
 window.addEventListener('online',() => {fresh=false;updateCrowd();});
 setInterval(updateCrowd,30000);

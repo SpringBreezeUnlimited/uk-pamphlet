@@ -16,7 +16,7 @@
 <main id="app">
   <header class="banner"><a class="brand" href="index.html"><img src="uk-lion.png" alt="UKライオン"><span>宇工祭 <b>2026</b><small>宇都宮工業高等学校</small></span></a><a href="index.html">表紙へ</a></header>
   <aside class="announcement-bar" aria-label="お知らせ" hidden><span class="announcement-label">お知らせ</span><div class="announcement-window"><span class="announcement-text"></span></div></aside>
-  <div class="page-heading"><div><h1>校内マップ</h1><p>教室をタップして、催事と混雑状況をチェック。</p></div><a class="original-link" href="map.png" target="_blank" rel="noopener">校内全体図 ↗</a></div>
+  <div class="page-heading"><div><h1>校内マップ</h1><p>教室をタップして、催事と混雑状況をチェック。</p></div><a class="original-link" href="#campusOverview">校内全体図を見る</a></div>
   <nav class="area-nav" aria-label="表示する階・エリア">
     <button data-area="all" aria-pressed="true" type="button">全体</button>
     <button data-area="1f" aria-pressed="false" type="button">1階</button>
@@ -27,6 +27,12 @@
   </nav>
   <div class="map-meta"><p id="crowdConnection" role="status">混雑状況を確認しています…</p><button type="button" id="reloadMap">再読み込み</button></div>
   <ul class="legend" aria-label="混雑状況の凡例"><li data-tone="quiet">空いている</li><li data-tone="moderate">やや混雑</li><li data-tone="busy">混雑</li><li data-tone="closed">受付停止・終了</li><li data-tone="unknown">未更新・要確認</li></ul>
+  <details id="campusOverview" class="campus-overview" open>
+    <summary>校内全体図<span>入口・建物・通路を確認</span></summary>
+    <div class="campus-content"><img src="campus-map.svg" alt="正門から入ると上に普通教室棟、中央に中庭、下に管理・特別教室棟、右に第2体育館と第1体育館があります。オレンジ色は移動できる通路、斜線は立入禁止区域です。">
+    <p>正門から中庭の周囲へ。体育館へは校舎右側の連絡通路をご利用ください。</p>
+    <div class="campus-links"><a href="campus-map.svg" target="_blank" rel="noopener">全体図を大きく開く ↗</a><a href="map.png" target="_blank" rel="noopener">元の詳細図を確認 ↗</a></div></div>
+  </details>
   <section class="map-stage" aria-label="階別の校内案内図"><div id="floorMaps"></div><p class="map-note">位置関係を簡略化した案内図です。詳しい配置・通路・立入禁止区域は<a href="map.png" target="_blank" rel="noopener">校内全体図</a>で確認できます。</p></section>
   <section class="directory" aria-labelledby="directoryTitle"><div class="directory-heading"><h2 id="directoryTitle">場所・催事から探す</h2><span id="resultCount" aria-live="polite"></span></div><label class="search-label" for="placeSearch">催事名・教室番号</label><input id="placeSearch" type="search" placeholder="例：お化け屋敷、201" autocomplete="off"><p id="mapStatus" class="status" role="status">催事情報を読み込んでいます…</p><div id="placeGrid" class="place-grid"></div><p id="emptyMessage" class="empty" hidden>一致する催事・教室がありません。別の言葉で探してください。</p></section>
   <footer><a href="saiji.html">催事一覧</a><a href="index.html">表紙に戻る</a><small>宇工祭2026</small></footer>

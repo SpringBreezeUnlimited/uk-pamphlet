@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ukousai2026-v33-floor-map';
+const CACHE_NAME = 'ukousai2026-v34-campus-map';
 const ASSETS = [
   './',
   './index.html',
@@ -6,6 +6,7 @@ const ASSETS = [
   './map.html',
   './map.css',
   './map.js',
+  './campus-map.svg',
   './map.png',
   './map-links.json',
   './map-positions.json',

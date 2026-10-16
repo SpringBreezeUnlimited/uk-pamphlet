@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 550" role="img" aria-labelledby="title desc">
+  <title id="title">宇工祭 校内全体図</title>
+  <desc id="desc">左側の正門から入場すると、上側に普通教室棟、中央に中庭、下側に管理・特別教室棟があります。右側の連絡通路が第2体育館と第1体育館を結びます。上側の専門棟と管理棟中央は立入禁止です。位置関係を簡略化した図です。</desc>
+  <defs><pattern id="restricted" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="9" height="9" fill="#f1f2f3"/><path d="M0 0V9" stroke="#d9dde1" stroke-width="3"/></pattern></defs>
+  <style>text{font-family:"Yu Gothic",Meiryo,sans-serif;fill:#18344d;text-anchor:middle} .name{font-size:20px;font-weight:700}.sub{font-size:14px;fill:#526779}.building{stroke:#8da4b5;stroke-width:1.5}.route{fill:none;stroke:#f2be83;stroke-width:22;stroke-linejoin:round}.small{font-size:13px;fill:#617384}</style>
+  <rect width="720" height="550" rx="12" fill="#f8fafb"/>
+  <text x="355" y="30" class="sub">宇都宮市南図書館側</text>
+  <rect x="115" y="49" width="425" height="51" rx="5" fill="url(#restricted)" class="building"/>
+  <text x="327" y="70" font-size="16" font-weight="700">機械棟・電気棟・建築棟・環境棟</text>
+  <text x="327" y="89" class="small">この先は立入禁止</text>
+  <!-- Connections follow the east-side passage in the original campus plan. -->
+  <path d="M529 161H567V382H603M567 234H603" class="route"/>
+  <path d="M91 285H124V328H550V334M124 285V217H550V190" class="route"/>
+  <rect x="114" y="126" width="426" height="83" rx="7" fill="#e5eff7" class="building"/>
+  <path d="M257 132V203M398 132V203" stroke="#b8cad8"/>
+  <text x="327" y="154" class="name">普通教室棟</text>
+  <text x="185" y="183" font-size="17" font-weight="700">1階</text><text x="327" y="183" font-size="17" font-weight="700">2階</text><text x="468" y="183" font-size="17" font-weight="700">3階</text>
+  <text x="185" y="199" class="small">101〜108</text><text x="327" y="199" class="small">201〜208</text><text x="468" y="199" class="small">301〜308</text>
+  <rect x="73" y="140" width="34" height="61" rx="3" fill="#eef2f5" class="building"/><text x="90" y="164" class="small">大講</text><text x="90" y="182" class="small">義室</text>
+  <rect x="135" y="223" width="377" height="94" rx="12" fill="#e8f2e8" stroke="#b3c9b5"/>
+  <text x="324" y="255" class="name">中庭</text><text x="324" y="277" class="sub">催事・飲食スペース</text><text x="324" y="300" class="small">周囲の通路から各会場へ</text>
+  <path d="M30 285H93M80 274L94 285L80 296" fill="none" stroke="#a36329" stroke-width="4"/>
+  <text x="52" y="249" font-size="21" font-weight="700">正門</text><text x="52" y="318" class="small">入場口</text>
+  <rect x="114" y="344" width="426" height="88" rx="7" fill="#ece9f4" class="building"/>
+  <text x="327" y="371" class="name">管理・特別教室棟</text>
+  <rect x="244" y="384" width="192" height="36" rx="3" fill="url(#restricted)" stroke="#c5cbd1"/>
+  <text x="340" y="407" class="sub">中央部は立入禁止</text>
+  <text x="174" y="407" class="sub">各催事</text><text x="487" y="407" class="sub">保健室</text>
+  <rect x="73" y="373" width="34" height="51" rx="3" fill="#eef2f5" class="building"/><text x="90" y="395" class="small">食堂</text>
+  <rect x="589" y="128" width="111" height="134" rx="8" fill="#fff2e0" class="building"/>
+  <text x="644" y="175" class="name">第2体育館</text><text x="644" y="202" class="sub">各系の展示</text>
+  <rect x="589" y="284" width="111" height="148" rx="8" fill="#fff2e0" class="building"/>
+  <text x="644" y="334" class="name">第1体育館</text><text x="644" y="360" class="sub">ステージ</text>
+  <text x="564" y="460" class="small">右側の連絡通路で体育館へ</text>
+  <text x="327" y="464" class="sub">校庭側</text>
+  <rect x="118" y="490" width="25" height="13" rx="3" fill="#f2be83"/><text x="198" y="502" class="sub">移動できる通路</text>
+  <rect x="335" y="490" width="25" height="13" rx="3" fill="url(#restricted)" stroke="#b8c0c8"/><text x="407" y="502" class="sub">立入禁止区域</text>
+  <text x="360" y="531" class="small">建物の大きさ・距離・通路幅は実際の縮尺と異なります</text>
+</svg>
