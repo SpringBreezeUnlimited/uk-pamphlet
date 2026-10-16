@@ -1,9 +1,11 @@
-const CACHE_NAME = 'ukousai2026-v32-monitor-cycle-seconds';
+const CACHE_NAME = 'ukousai2026-v33-floor-map';
 const ASSETS = [
   './',
   './index.html',
   './saiji.html',
   './map.html',
+  './map.css',
+  './map.js',
   './map.png',
   './map-links.json',
   './map-positions.json',
