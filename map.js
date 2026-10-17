@@ -127,17 +127,18 @@ function renderMaps() {
   for (const floor of ['3f','2f','1f']) {
     if (area !== 'all' && area !== floor) continue;
     const svg = floorPanel(names[floor],'普通教室棟',floor);
-    svg.append(polygon(0,10,810,130,'floor-edge'),polygon(0,0,810,130,'floor-body'),polygon(0,88,810,35,'corridor'));
+    // The corridor runs behind the classrooms on every floor.
+    svg.append(polygon(0,10,810,130,'floor-edge'),polygon(0,0,810,130,'floor-body'),polygon(0,0,810,35,'corridor'));
     const floorPlaces = places.filter(place => place.area === floor);
     const xs = [85,157,229,301,373,510,582,715];
-    floorPlaces.forEach((place,index) => room(svg,place,xs[index],2));
-    svg.append(polygon(5,2,36,82,'stairs'),polygon(42,2,40,82,'stairs'),polygon(448,2,58,82,'stairs'));
-    addLabel(svg,23,47,'階段','stairs-text');
-    addLabel(svg,62,47,'WC','stairs-text');
-    addLabel(svg,477,47,'階段','stairs-text');
-    svg.append(polygon(655,2,55,82,'stairs'));
-    addLabel(svg,682,47,'WC','stairs-text');
-    addLabel(svg,380,115,'廊下','map-label');
+    floorPlaces.forEach((place,index) => room(svg,place,xs[index],40));
+    svg.append(polygon(5,40,36,82,'stairs'),polygon(42,40,40,82,'stairs'),polygon(448,40,58,82,'stairs'));
+    addLabel(svg,23,85,'階段','stairs-text');
+    addLabel(svg,62,85,'WC','stairs-text');
+    addLabel(svg,477,85,'階段','stairs-text');
+    svg.append(polygon(655,40,55,82,'stairs'));
+    addLabel(svg,682,85,'WC','stairs-text');
+    addLabel(svg,380,25,'廊下','map-label');
   }
   if (area === 'all' || area === 'gyms') {
     const svg = floorPanel('体育館','教室棟の右側にあります','gyms');
